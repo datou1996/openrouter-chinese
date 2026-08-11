@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.2.1
+// @version      1.2.2
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.1
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.2
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -113,6 +113,7 @@
                 safe(transTitle, '标题翻译')();
             }
             setupMutationObserver(); // 设置 DOM 变化观察器
+            setupLazyContentSweep(); // 设置懒加载内容清扫
         }
 
         if (document.readyState === 'interactive' || document.readyState === 'complete') {
@@ -120,6 +121,43 @@
         } else {
             window.addEventListener('DOMContentLoaded', doInitTrans, { once: true });
         }
+    }
+
+    /**
+     * 设置懒加载内容清扫
+     *
+     * OpenRouter 为 Next.js 应用,大量内容(排行榜分区、图表等)通过滚动/观察器
+     * 懒加载挂载,且 React 重渲染会恢复英文原文。仅依赖 MutationObserver 可能
+     * 漏掉部分节点(如 body 被替换、mutation 批量处理中断等),因此:
+     *   1. 监听滚动(防抖)后整页重扫 —— 覆盖滚动懒加载的内容
+     *   2. 周期性整页重扫 —— 覆盖其他时机挂载/被 React 恢复的内容
+     *   3. 检测 body 被替换 —— 替换后重建观察器,避免观察失效
+     */
+    function setupLazyContentSweep() {
+        // 滚动防抖重扫(800ms)
+        let scrollTimer = null;
+        window.addEventListener('scroll', () => {
+            if (scrollTimer) clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                if (State.pageConfig) {
+                    safe(traverseNode, '滚动重扫')(document.body);
+                }
+            }, 800);
+        }, { passive: true });
+
+        // 周期性重扫(8 秒)与 body 替换检测
+        setInterval(() => {
+            // body 被替换时重建观察器
+            if (State.mutationObserver && !document.contains(State.mutationObserver.target)) {
+                console.warn('[OpenRouter 中文化插件] 检测到 body 被替换,重建观察器');
+                State.mutationObserver.disconnect();
+                State.mutationObserver = null;
+                setupMutationObserver();
+            }
+            if (State.pageConfig) {
+                safe(traverseNode, '周期重扫')(document.body);
+            }
+        }, 8000);
     }
 
     /* =========================== URL 变化监听 =========================== */
@@ -221,7 +259,7 @@
             pageType = 'model';
         } else if (pathname === '/chat' || pathname.startsWith('/chat/')) {
             pageType = 'chat';
-        } else if (pathname === '/rankings') {
+        } else if (pathname === '/rankings' || pathname.startsWith('/rankings/')) {
             pageType = 'rankings';
         } else if (pathname === '/apps' || pathname.startsWith('/apps/')) {
             pageType = 'apps';
