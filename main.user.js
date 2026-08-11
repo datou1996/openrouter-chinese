@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.2.3
+// @version      1.2.4
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.3
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.4
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -269,13 +269,17 @@
             pageType = 'providers';
         } else if (pathname === '/pricing') {
             pageType = 'pricing';
+        } else if (pathname === '/labs' || pathname.startsWith('/labs/')) {
+            pageType = 'labs';
+        } else if (pathname === '/spawn') {
+            pageType = 'spawn';
         } else if (pathname === '/fusion') {
             pageType = 'fusion';
         } else if (pathname === '/discover') {
             pageType = 'discover';
-        } else if (pathname === '/activity') {
+        } else if (pathname === '/activity' || pathname.startsWith('/activity/')) {
             pageType = 'activity';
-        } else if (pathname === '/logs') {
+        } else if (pathname === '/logs' || pathname.startsWith('/logs/')) {
             pageType = 'logs';
         } else if (pathname === '/compare' || pathname.startsWith('/compare/')) {
             pageType = 'compare';
