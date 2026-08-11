@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.0.0
+// @version      1.1.0
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.0.0
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.1.0
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -213,8 +213,8 @@
         const { pathname } = window.location;
 
         let pageType;
-        if (pathname === '/' || pathname === '/workspaces') {
-            pageType = 'home';
+        if (pathname === '/' || pathname === '/workspaces' || pathname.startsWith('/workspaces/')) {
+            pageType = pathname.startsWith('/workspaces') ? 'workspaces' : 'home';
         } else if (pathname === '/models') {
             pageType = 'models';
         } else if (pathname.startsWith('/models/')) {
@@ -233,6 +233,10 @@
             pageType = 'fusion';
         } else if (pathname === '/discover') {
             pageType = 'discover';
+        } else if (pathname === '/activity') {
+            pageType = 'activity';
+        } else if (pathname === '/logs') {
+            pageType = 'logs';
         } else if (pathname === '/docs' || pathname.startsWith('/docs/') || pathname === '/developers') {
             pageType = 'docs';
         } else if (pathname.startsWith('/settings')) {
@@ -631,3 +635,4 @@
         init();
     }
 })(window, document, undefined);
+
