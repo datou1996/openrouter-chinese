@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.1.0
+// @version      1.2.0
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.1.0
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.0
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -386,7 +386,10 @@
                     if (node.nodeType === Node.ELEMENT_NODE
                         && State.pageConfig?.ignoreSelectors
                         && node.matches(State.pageConfig.ignoreSelectors)) {
-                        return NodeFilter.FILTER_REJECT; // 跳过忽略的选择器
+                        // 被忽略的元素仍翻译其属性(如 textarea 的 placeholder、按钮的 aria-label),
+                        // 但其子树(如代码块、输入内容)不参与翻译
+                        handleElementNode(node);
+                        return NodeFilter.FILTER_REJECT;
                     }
                     return NodeFilter.FILTER_ACCEPT; // 接受其他节点
                 }
@@ -495,16 +498,23 @@
 
     /**
      * 翻译元素的单个属性
-     * @param {Object} target - 元素对象或元素数据集
+     * 注意:元素属性需使用 getAttribute/setAttribute(带连字符的属性名如 aria-label
+     * 无法通过 element['aria-label'] 属性访问),data-* 数据集则使用属性访问
+     * @param {Object} target - 元素对象或元素数据集(dataset)
      * @param {string} attrName - 要翻译的属性名
      */
     function transElementAttr(target, attrName) {
-        const text = target[attrName];
+        const isElement = typeof target.getAttribute === 'function';
+        const text = isElement ? target.getAttribute(attrName) : target[attrName];
         if (!text || text.length > 500) return;
 
         const result = transText(text);
         if (result) {
-            target[attrName] = result;
+            if (isElement) {
+                target.setAttribute(attrName, result);
+            } else {
+                target[attrName] = result;
+            }
         }
     }
 

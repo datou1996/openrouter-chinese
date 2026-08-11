@@ -119,6 +119,47 @@ const I18N = {
         'Completion': '补全',
         'Reasoning': '推理',
 
+        // 模态分类标签(大写形式,出现在模型列表/排行榜页签)
+        'Text': '文本',
+        'Image': '图像',
+        'Embeddings': '向量嵌入',
+        'Audio': '音频',
+        'Video': '视频',
+        'Rerank': '重排序',
+        'Speech': '语音',
+        'Transcription': '转录',
+        'providers': '提供商',
+        'by': '来自',
+        'All models': '所有模型',
+
+        // 退出登录(头像菜单)
+        'Sign Out': '退出登录',
+        'Log Out': '退出登录',
+        'Logout': '退出登录',
+        'Log out': '退出登录',
+
+        // 通用界面元素
+        'View more': '查看更多',
+        'View more →': '查看更多 →',
+        'Model Filters': '模型筛选',
+        'Quick Start': '快速开始',
+        'Get your API key': '获取您的 API 密钥',
+        'Frequently asked questions': '常见问题',
+        'Previous slide': '上一张',
+        'Next slide': '下一张',
+        'Sign in to try this model': '登录后试用此模型',
+        'Get Code': '获取代码',
+        'Raw': '原始',
+        'Quality': '质量',
+        'Budget': '预算',
+        'Fast': '快速',
+        'Custom': '自定义',
+        'Runs': '运行记录',
+        'beta': '测试版',
+        'Today': '今天',
+        'More models from': '更多模型来自',
+        'Parameters': '参数',
+
         // 页脚
         'Product': '产品',
         'Company': '公司',
@@ -443,6 +484,24 @@ const I18N = {
         [/^3mo$/, '3 个月'],
         [/^6mo$/, '6 个月'],
         [/^1y$/, '1 年'],
+        // 折扣徽章,如 "90% off"
+        [/^(\d+)% off$/, '$1% 折扣'],
+        // 价格,如 "$0.95/M input"、"$4/M output"(与 "tokens" 拆分显示的情况)
+        [/^\$[\d.]+\/M\s*(input|output)$/, (match, p) => match.replace(/(input|output)$/, p === 'input' ? '输入' : '输出')],
+        // 上下文长度,如 "262K context"、"1M context"
+        [/^([\d.]+[KM]?)\s*context$/, '$1 上下文'],
+        // 模型分类标签,如 "Programming (#39)"
+        [/^(Programming|Finance|Health|Science|Technology|General|Vision|Coding|Reasoning|Creative|Writing|Math|Language|Translation|Agentic|Audio|Image|Video|Knowledge|Roleplay|Travel|Legal|Medical|Data|Business) \(#(\d+)\)$/, (match, cat, num) => ({
+          Programming: '编程', Finance: '金融', Health: '健康', Science: '科学', Technology: '科技',
+          General: '通用', Vision: '视觉', Coding: '编码', Reasoning: '推理', Creative: '创意',
+          Writing: '写作', Math: '数学', Language: '语言', Translation: '翻译', Agentic: '智能体',
+          Audio: '音频', Image: '图像', Video: '视频', Knowledge: '知识', Roleplay: '角色扮演',
+          Travel: '旅行', Legal: '法律', Medical: '医疗', Data: '数据', Business: '商业'
+        }[cat] || cat) + ' (#' + num + ')'],
+        // 分页,如 "1–20 of 60"
+        [/^(\d+)[–-](\d+) of (\d+)$/, '$1–$2 / 共 $3 条'],
+        // 运行次数,如 "0 runs"
+        [/^(\d+)\s*runs?$/, '$1 次运行'],
       ],
       title: {
         static: {},
@@ -454,7 +513,16 @@ const I18N = {
     home: {
       static: {
         'The Unified Interface For LLMs': '大语言模型统一接口',
-        'Better prices, better uptime, no subscriptions.': '更优价格、更高可用性,无需订阅。',
+        // hero 副标题被内联元素拆分为多个文本节点
+        'Better': '更优',
+        'prices': '价格',
+        ', better': ',更优',
+        'uptime': '可用性',
+        ', no subscriptions.': ',无需订阅。',
+        // 统计数字碎片("400+ active models on 70+ providers" 的拆分节点)
+        'active models on': '个活跃模型,分布在',
+        '250k+ apps using OpenRouter with 4.2M+ users globally': '全球 25 万+ 应用通过 OpenRouter 服务 420 万+ 用户',
+        'Credits can be used with any model or provider.': '额度可用于任何模型或提供商。',
         'Discover Models': '发现模型',
         'Monthly Tokens': '月度 Token 数',
         'Global Users': '全球用户',
@@ -527,8 +595,7 @@ const I18N = {
       regexp: [
         // 价格行,如 "$0.95/M input tokens" -> "$0.95/M 输入 Token"
         [/^\$[\d.]+\/M\s*(input|output)\s*tokens$/, (match, p1) => match.replace(/(input|output)\s*tokens$/, p1 === 'input' ? '输入 Token' : '输出 Token')],
-      ],
-      title: {
+      ],      title: {
         static: {
           'Compare AI Models: Pricing, Context & Benchmarks | OpenRouter': '对比 AI 模型:价格、上下文与基准测试 | OpenRouter',
         },
@@ -612,12 +679,111 @@ const I18N = {
         'When an error occurs in an upstream provider, we can recover by routing to another healthy provider, if your request filters allow it. You can access uptime data programmatically through the': '当上游提供商出错时,如果您的请求过滤条件允许,我们可以通过路由到其他健康的提供商来恢复。您可以通过以下 API 以编程方式访问可用性数据:',
         'Scores on standardized evaluations. Higher percentages are better — and rank percentile shows where this model lands among all models on OpenRouter.': '标准化评测的得分。百分比越高越好,排名百分位显示该模型在 OpenRouter 所有模型中的位置。',
         'Different companies host the same model. OpenRouter routes your request to one of them based on the routing mode you pick — Balanced (price + speed), Nitro (fastest), or Exacto (highest tool-calling accuracy).': '不同的公司托管同一个模型。OpenRouter 会根据您选择的路由模式,将请求路由到其中一个——Balanced(价格 + 速度)、Nitro(最快)或 Exacto(工具调用准确率最高)。',
+        'about our load balancing and customization options.': '了解我们的负载均衡和自定义选项。',
+
+        // 基准测试版块
+        'Intelligence Index': '智能指数',
+        'Better than 54% of models compared': '优于所比较模型中 54% 的模型',
+        'Better than 62% of models compared': '优于所比较模型中 62% 的模型',
+        'Better than 56% of models compared': '优于所比较模型中 56% 的模型',
+        'Coding Index': '编码指数',
+        'Agentic Index': '智能体指数',
+        'Graduate-level scientific reasoning': '研究生级别的科学推理',
+        'Humanity\u2019s Last Exam': '人类最后的考试',
+        'Humanity\'s Last Exam': '人类最后的考试',
+        'Instruction-following benchmark': '指令遵循基准测试',
+        'Conversational AI agents in dual-control scenarios': '双控场景下的对话式 AI 智能体',
+        'Long context reasoning evaluation': '长上下文推理评测',
+        'Economically valuable tasks': '具有经济价值的任务',
+        'Research-level physics reasoning': '研究级别的物理推理',
+        'Coding': '编码',
+        'Python programming for scientific computing': '用于科学计算的 Python 编程',
+        'Agentic coding & terminal use': '智能体编码与终端使用',
+        'Knowledge': '知识',
+        'Proportion of correctly answered questions': '正确回答问题的比例',
+        'Rate of avoiding hallucination among non-correct responses': '非正确回复中避免幻觉的比例',
+        'Metrics sourced from': '指标数据来源',
+
+        // 使用该模型的应用
+        'Public apps that send the most traffic to this model. Good signal for what real production workloads look like — and a hint at which use cases this model is best suited for.': '为这个模型带来最多流量的公开应用。这能反映真实的生产负载情况,也暗示了这个模型最适合哪些使用场景。',
+        'Token volume and request traffic to this model over time.': '该模型随时间变化的 Token 用量和请求流量。',
+        'Prompt tokens measure input size. Reasoning tokens show internal thinking before a response. Completion tokens reflect total output length.': '提示词 Token 衡量输入大小。推理 Token 显示响应前的内部思考。补全 Token 反映总输出长度。',
+
+        // 快速开始
+        'Drop-in code to call this model. OpenRouter\u2019s API is OpenAI-compatible — most SDKs work by just swapping the base URL. The only thing that changes between models is the model slug below.': '直接复制代码即可调用此模型。OpenRouter 的 API 兼容 OpenAI——大多数 SDK 只需替换基础 URL 即可使用。不同模型之间唯一变化的是下面的模型标识。',
+        'Drop-in code to call this model. OpenRouter\'s API is OpenAI-compatible — most SDKs work by just swapping the base URL. The only thing that changes between models is the model slug below.': '直接复制代码即可调用此模型。OpenRouter 的 API 兼容 OpenAI——大多数 SDK 只需替换基础 URL 即可使用。不同模型之间唯一变化的是下面的模型标识。',
+        'Create an API key from your OpenRouter dashboard and set it as an environment variable:': '从您的 OpenRouter 控制台创建 API 密钥,并将其设置为环境变量:',
+        'Make your first request': '发起您的第一个请求',
+        'Use': '使用',
+        'with the OpenRouter API:': '与 OpenRouter API 一起使用:',
+        'OpenRouter provides an OpenAI-compatible completion API to 400+ models & providers that you can call directly, or using the OpenAI SDK. Additionally, some third-party SDKs are available.': 'OpenRouter 提供兼容 OpenAI 的补全 API,支持 400+ 模型和提供商,您可以直接调用,或使用 OpenAI SDK。此外还提供一些第三方 SDK。',
+        'In the examples below, the': '下面的示例中,',
+        'OpenRouter-specific headers': 'OpenRouter 专属请求头',
+        'are optional. Setting them allows your app to appear on the OpenRouter leaderboards.': '为可选项。设置它们可以让您的应用出现在 OpenRouter 排行榜上。',
+        'Using third-party SDKs': '使用第三方 SDK',
+        'For information about using third-party SDKs and frameworks with OpenRouter, please see our': '有关使用第三方 SDK 和框架与 OpenRouter 集成的信息,请参阅我们的',
+        'frameworks documentation': '框架文档',
+        'Enable streaming': '启用流式传输',
+        'to your request body to receive responses as server-sent events:': '添加到请求体中以接收服务器推送事件形式的响应:',
+        'Sends a request for a model response for the given chat conversation. Supports both streaming and non-streaming modes.': '为给定的聊天对话发送模型响应请求。支持流式和非流式模式。',
+        'optional — your site URL, for rankings': '可选 — 您的站点 URL,用于排行榜',
+        'optional — your site name, for rankings': '可选 — 您的站点名称,用于排行榜',
+        'Creates a streaming or non-streaming response using the OpenAI Responses API format.': '使用 OpenAI Responses API 格式创建流式或非流式响应。',
+        'Creates a message using the Anthropic Messages API format. Supports text, images, PDFs, tools, and extended thinking.': '使用 Anthropic Messages API 格式创建消息。支持文本、图像、PDF、工具和扩展思考。',
+        'This sets the upper limit for the number of tokens the model can generate in response.': '设置模型在响应中可以生成的最大 Token 数上限。',
+        'This setting influences the variety in the model\u2019s responses.': '此设置影响模型响应的多样性。',
+        'This setting influences the variety in the model\'s responses.': '此设置影响模型响应的多样性。',
+        'This setting limits the model\u2019s choices to a percentage of likely tokens: only the top tokens whose probabilities add up to P.': '此设置将模型的选择限制在一定百分比的候选 Token 中:仅选择概率之和达到 P 的顶部 Token。',
+        'This setting limits the model\'s choices to a percentage of likely tokens: only the top tokens whose probabilities add up to P.': '此设置将模型的选择限制在一定百分比的候选 Token 中:仅选择概率之和达到 P 的顶部 Token。',
+        'This limits the model\u2019s choice of tokens at each step, making it choose from a smaller set.': '这会限制模型每一步对 Token 的选择,使其从更小的集合中挑选。',
+        'This limits the model\'s choice of tokens at each step, making it choose from a smaller set.': '这会限制模型每一步对 Token 的选择,使其从更小的集合中挑选。',
+        'Stop generation immediately if the model encounter any token specified in the stop array.': '如果模型遇到停止数组中的任何 Token,立即停止生成。',
+        'Tool calling parameter, following OpenAI\u2019s tool calling request shape.': '工具调用参数,遵循 OpenAI 的工具调用请求格式。',
+        'Tool calling parameter, following OpenAI\'s tool calling request shape.': '工具调用参数,遵循 OpenAI 的工具调用请求格式。',
+        'Controls which (if any) tool is called by the model.': '控制模型调用哪个工具(如果有)。',
+        'Forces the model to produce specific output format.': '强制模型生成特定的输出格式。',
+
+        // 延迟/吞吐量
+        'Cache Hit Rate by Provider': '各提供商的缓存命中率',
+        'Tool Call Error Rate by Provider': '各提供商的工具调用错误率',
+        'Structured Output Error Rate by Provider': '各提供商的结构化输出错误率',
+        'Rolling average over the past 32 days — the same lookback window used for quality-based routing': '过去 32 天的滚动平均值——与基于质量的路由使用的回溯窗口相同',
+        'Median End-to-End Latency on OpenRouter': 'OpenRouter 上的中位端到端延迟',
+        'Median Latency on OpenRouter': 'OpenRouter 上的中位延迟',
+        'Median Throughput on OpenRouter': 'OpenRouter 上的中位吞吐量',
+
+        // 相关模型
+        'Fast-mode variant of': '的快速模式变体',
+        '- identical capabilities with higher output speed at 2x pricing relative to regular Opus 5.': '— 与常规 Opus 5 能力相同,输出速度更快,价格为 2 倍。',
+        '- identical capabilities with higher output speed at 2x pricing relative to regular Opus 4.8.': '— 与常规 Opus 4.8 能力相同,输出速度更快,价格为 2 倍。',
+        '- identical capabilities with higher output speed at premium 6x pricing.': '— 能力相同,输出速度更快,价格为 6 倍。',
+        'This model always redirects to the latest model in the Claude Fable family.': '此模型始终重定向到 Claude Fable 系列中的最新模型。',
+        'This model always redirects to the latest model in the Anthropic Claude Haiku family.': '此模型始终重定向到 Anthropic Claude Haiku 系列中的最新模型。',
+        'This model always redirects to the latest model in the Anthropic Claude Sonnet family.': '此模型始终重定向到 Anthropic Claude Sonnet 系列中的最新模型。',
+        'This model always redirects to the latest model in the Claude Opus family.': '此模型始终重定向到 Claude Opus 系列中的最新模型。',
+        'This model always redirects to the latest model in the DeepSeek V4 Flash family.': '此模型始终重定向到 DeepSeek V4 Flash 系列中的最新模型。',
+        'For users upgrading from earlier Opus versions, see our': '从早期 Opus 版本升级的用户,请参阅我们的',
+        'official migration guide here': '官方迁移指南',
+        'Read more at the': '更多信息请阅读',
+        'blog post here': '博客文章',
+        'See the launch announcement and benchmark results': '查看发布公告和基准测试结果',
+        'here': '此处',
+        'Learn more in Anthropic\u2019s docs:': '更多信息请参阅 Anthropic 的文档:',
+        'Learn more in Anthropic\'s docs:': '更多信息请参阅 Anthropic 的文档:',
+        'This model is currently pointing to': '此模型当前指向',
+        'It does not support image inputs.': '它不支持图像输入。',
+        'New Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:': '全新的 Claude 3.5 Sonnet 提供超越 Opus 的能力、快于 Sonnet 的速度,以及和 Sonnet 相同的价格。Sonnet 尤其擅长:',
+        'Responses are AI-generated. Verify before relying on them.': '回复由 AI 生成。使用前请核实。',
+        'Drop-in code to call this model with OpenRouter\u2019s OpenAI-compatible API.': '使用 OpenRouter 兼容 OpenAI 的 API 直接调用此模型的示例代码。',
+        'Drop-in code to call this model with OpenRouter\'s OpenAI-compatible API.': '使用 OpenRouter 兼容 OpenAI 的 API 直接调用此模型的示例代码。',
       },
       regexp: [
         // 吞吐量/延迟统计说明
         [/^P50, best across providers$/, 'P50,各提供商最佳'],
         [/^P50, best provider$/, 'P50,最佳提供商'],
         [/^All locations$/, '所有地区'],
+        // 价格历史标题,如 "Claude Sonnet 4.5 — Price History"
+        [/^(.+) \u2014 Price History$/, '$1 — 价格历史'],
       ],
       title: {
         static: {},
@@ -625,6 +791,31 @@ const I18N = {
           // "模型名 - API Pricing & Benchmarks | OpenRouter"
           [/^(.+) - API Pricing & Benchmarks \| OpenRouter$/, '$1 - API 定价与基准测试 | OpenRouter'],
         ],
+      },
+    },
+
+    /* ------------------------------ 融合页 ------------------------------ */
+    fusion: {
+      static: {
+        'Model Fusion': '模型融合',
+        'New fusion': '新建融合',
+        'No runs yet.': '还没有运行记录。',
+        'Run multiple models side-by-side, run an analysis, and fuse into the best result.': '并排运行多个模型,进行分析,并融合出最佳结果。',
+        'Synthesizer': '合成器',
+        'Improve your prompt': '优化您的提示词',
+        'Analyzing your prompt...': '正在分析您的提示词...',
+        'Add Model': '添加模型',
+        'Claude Opus Latest': 'Claude Opus 最新版',
+        'OpenAI GPT Latest': 'OpenAI GPT 最新版',
+        'Google Gemini Pro Latest': 'Google Gemini Pro 最新版',
+        'Responses are AI-generated and can be inaccurate. Review all outputs before relying on them.': '回复由 AI 生成,可能不准确。在依赖之前请审查所有输出。',
+      },
+      regexp: [],
+      title: {
+        static: {
+          'Model Fusion | OpenRouter': '模型融合 | OpenRouter',
+        },
+        regexp: [],
       },
     },
 
@@ -683,6 +874,8 @@ const I18N = {
         'Select a Video Input Model': '选择视频输入模型',
         'Search models': '搜索模型',
         'Ask anything': '输入任何问题',
+        'Ask anything\u2026': '输入任何问题…',
+        'Ask anything...': '输入任何问题…',
         'What can I help with?': '有什么可以帮您?',
         'How can I help you today?': '今天有什么可以帮您?',
         'Responses are AI-generated and can be inaccurate. Review all outputs before relying on them.': '回复由 AI 生成,可能不准确。在依赖之前请审查所有输出。',
@@ -780,6 +973,18 @@ const I18N = {
         'Rank': '排名',
         'Total votes': '总票数',
         'Weekly votes': '周票数',
+
+        // 排名分类版块
+        'View all text models': '查看全部文本模型',
+        'Compare text request share by model author on OpenRouter.': '按模型作者比较 OpenRouter 上的文本请求份额。',
+        'Compare models by natural language on OpenRouter': '按自然语言比较 OpenRouter 上的模型',
+        'English': '英语',
+        'Compare models by programming language on OpenRouter': '按编程语言比较 OpenRouter 上的模型',
+        'Requests by prompt & completion length on OpenRouter': '按提示词与补全长度统计的请求量',
+        'Tool usage across models on OpenRouter': '各模型上的工具使用情况',
+        'Total images processed on OpenRouter': 'OpenRouter 处理的图像总数',
+        '1K - 10K tokens': '1K - 10K Token',
+        '1K - 100K tokens': '1K - 100K Token',
       },
       regexp: [],
       title: {
@@ -818,10 +1023,33 @@ const I18N = {
         'App name': '应用名称',
         'App description': '应用描述',
         'We\u2019ll review your submission': '我们将审核您的提交',
+
+        // 应用排行榜版块
+        'App & Agent Rankings': '应用与智能体排行榜',        'Most Popular': '最受欢迎',
+        'Largest public apps and agents': '最大的公开应用和智能体',
+        'opting into': '选择加入',
+        'usage tracking on OpenRouter.': 'OpenRouter 上的使用跟踪。',
+        'Fastest growing this week': '本周增长最快',
+        'Top Coding Agents': '热门编码智能体',
+        'Top Productivity': '热门效率工具',
+        'Top Creative': '热门创意工具',
+        'Top Entertainment': '热门娱乐应用',
+        'Global Ranking': '全球排名',
+        'Personal Agents': '个人智能体',
+        'CLI Agents': 'CLI 智能体',
+        'IDE Extensions': 'IDE 扩展',
+        'General Chat': '通用聊天',
+        'Game': '游戏',
+        'Roleplay': '角色扮演',
+        'Creative Writing': '创意写作',
+        'Programming App': '编程应用',
+        'Token volume': 'Token 总量',
       },
       regexp: [],
       title: {
-        static: {},
+        static: {
+          'App & Agent Rankings | OpenRouter': '应用与智能体排行榜 | OpenRouter',
+        },
         regexp: [],
       },
     },
