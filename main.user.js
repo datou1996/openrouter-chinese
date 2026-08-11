@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.2.2
+// @version      1.2.3
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.2
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.2.3
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -141,11 +141,12 @@
             scrollTimer = setTimeout(() => {
                 if (State.pageConfig) {
                     safe(traverseNode, '滚动重扫')(document.body);
+                    safe(transTitle, '标题翻译')();
                 }
             }, 800);
         }, { passive: true });
 
-        // 周期性重扫(8 秒)与 body 替换检测
+        // 周期性重扫(6 秒)与 body 替换检测
         setInterval(() => {
             // body 被替换时重建观察器
             if (State.mutationObserver && !document.contains(State.mutationObserver.target)) {
@@ -156,8 +157,9 @@
             }
             if (State.pageConfig) {
                 safe(traverseNode, '周期重扫')(document.body);
+                safe(transTitle, '标题翻译')(); // Next.js 会在路由后重新设置标题
             }
-        }, 8000);
+        }, 6000);
     }
 
     /* =========================== URL 变化监听 =========================== */
@@ -275,6 +277,8 @@
             pageType = 'activity';
         } else if (pathname === '/logs') {
             pageType = 'logs';
+        } else if (pathname === '/compare' || pathname.startsWith('/compare/')) {
+            pageType = 'compare';
         } else if (pathname === '/docs' || pathname.startsWith('/docs/') || pathname === '/developers') {
             pageType = 'docs';
         } else if (pathname.startsWith('/settings')) {
@@ -283,6 +287,9 @@
             pageType = 'signin';
         } else if (pathname.startsWith('/blog')) {
             pageType = 'blog';
+        } else if (/^\/[a-z0-9-]+\/[a-z0-9.\-]+$/.test(pathname)) {
+            // 厂商/模型 形式的模型详情页,如 /sakana/sakana-namazu、/deepseek/deepseek-v4-flash-0731
+            pageType = 'model';
         } else {
             pageType = 'misc';
         }
