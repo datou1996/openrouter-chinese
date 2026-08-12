@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.3.10
+// @version      1.4.0
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.10
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.4.0
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -267,10 +267,12 @@
             pageType = 'rankings';
         } else if (pathname === '/apps' || pathname.startsWith('/apps/')) {
             pageType = 'apps';
-        } else if (pathname === '/providers') {
+        } else if (pathname === '/providers' || pathname.startsWith('/providers/')) {
             pageType = 'providers';
         } else if (pathname === '/pricing') {
             pageType = 'pricing';
+        } else if (pathname === '/benchmarks') {
+            pageType = 'benchmarks';
         } else if (pathname === '/labs' || pathname.startsWith('/labs/')) {
             pageType = 'labs';
         } else if (pathname === '/spawn') {

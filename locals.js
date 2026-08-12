@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.3.10',
+  version: '1.4.0',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -2496,6 +2496,48 @@ const I18N = {
       },
     },
 
+    /* ------------------------------ 基准测试 ------------------------------ */
+    benchmarks: {
+      static: {
+        'AI Model Benchmarks': 'AI 模型基准测试',
+        'benchmarks': '基准测试',
+        'task evaluations': '任务评测',
+        'last run': '最近运行',
+        'Agents & tools': '智能体与工具',
+        'Benchmark': '基准测试',
+        'Value': '数值',
+        'Speed': '速度',
+        'Multi-turn service agents making tool calls under strict policy constraints.': '在严格策略约束下进行工具调用的多轮服务智能体。',
+        'Graduate-level science questions that resist retrieval and reward careful reasoning.': '抗拒检索、奖励缜密推理的研究生级科学问题。',
+        'Hard-to-locate facts on the live web, scored on persistent multi-step research.': '实时网络上难以查找的事实，基于持续的多步研究评分。',
+        'Questions whose answers are lists, scored for exhaustive retrieval with no padding.': '答案为列表的问题，按无冗余的穷尽检索评分。',
+        'Parallel': '并行',
+        'Humanity\u2019s Last Exam as a search benchmark: expert questions answered with live search.': '作为搜索基准的"人类最后的考试"：通过实时搜索回答专家级问题。',
+        'Humanity\'s Last Exam as a search benchmark: expert questions answered with live search.': '作为搜索基准的"人类最后的考试"：通过实时搜索回答专家级问题。',
+        'Fill an entire table; answer-item accuracy scores partial matches.': '填满整个表格；答案条目准确率对部分匹配计分。',
+        'For usage-based views of the same models, see the': '如需查看相同模型的用量视图，请参阅',
+        'model rankings': '模型排行榜',
+        'and the': '和',
+        'full model list': '完整模型列表',
+        'high': '高',
+        'xhigh': '极高',
+        'medium': '中',
+        'low': '低',
+      },
+      regexp: [
+        // "· high" 等推理强度后缀
+        [/^· (high|xhigh|medium|low)$/, (m, level) => '· ' + ({ high: '高', xhigh: '极高', medium: '中', low: '低' }[level])],
+        // 模型名与推理强度同节点,如 "Claude Opus 5 · high"
+        [/^(.+) · (high|xhigh|medium|low)$/, (m, name, level) => name + ' · ' + ({ high: '高', xhigh: '极高', medium: '中', low: '低' }[level])],
+      ],
+      title: {
+        static: {
+          'AI Model Benchmarks | OpenRouter': 'AI 模型基准测试 | OpenRouter',
+        },
+        regexp: [],
+      },
+    },
+
     /* ------------------------------ 定价页 ------------------------------ */
     pricing: {
       static: {
@@ -2629,13 +2671,32 @@ const I18N = {
         'Supports BYOK': '支持自带密钥',
         'Moderation required': '需要审核',
         'Reset Filters': '重置筛选',
+        // 提供商对比页
+        'Compare providers': '对比提供商',
+        'Select a provider': '选择一个提供商',
+        'Add provider': '添加提供商',
+        'Highlight best': '高亮最佳',
+        'Free models': '免费模型',
+        'Tokens (24h)': 'Token 数 (24 小时)',
+        'Tokens (30d)': 'Token 数 (30 天)',
+        'Privacy and data handling': '隐私与数据处理',
+        'Prompt retention': '提示词保留',
+        'Access and documents': '访问与文档',
+        'provider comparison': '提供商对比',
       },
       regexp: [
         [/^(\d+) of (\d+) providers$/, '共 $2 个提供商，显示 $1 个'],
+        // 提供商对比标题,如 "Compare OpenAI vs Tencent Cloud | OpenRouter"
+        [/^Compare (.+) vs (.+) \| OpenRouter$/, '对比 $1 与 $2 | OpenRouter'],
+        // 对比页标题,如 "OpenAI vs Tencent Cloud: provider comparison"
+        [/^(.+) vs (.+): provider comparison$/, '$1 与 $2 提供商对比'],
+        // 对比页副标题
+        [/^(.+) vs (.+)$/, '$1 对比 $2'],
       ],
       title: {
         static: {
           'Providers | OpenRouter': '提供商 | OpenRouter',
+          'Compare AI Providers | OpenRouter': 'AI 提供商对比 | OpenRouter',
         },
         regexp: [],
       },
