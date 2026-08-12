@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.0
+// @version      1.5.1
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.0
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.1
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -174,16 +174,25 @@
      * 这些节点可能因虚拟列表复用、React Portal 等复杂原因从未被 TreeWalker 访问
      */
     function patchMissedNodes() {
+        let count = 0, hit = 0;
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
         let node;
         while ((node = walker.nextNode())) {
             const text = node.data;
             if (!text || text.length > 30) continue;
+            count++;
             if (/^\d+\s*selected$/.test(text)) {
+                hit++;
                 const result = transText(text);
-                if (result) node.data = result;
+                if (result) {
+                    console.info('[OpenRouter 中文化插件] 兜底扫描 命中 selected:', text, '=>', result, '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null');
+                    node.data = result;
+                } else {
+                    console.warn('[OpenRouter 中文化插件] 兜底扫描 selected transText 返回 false:', text, '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null', '| enable_RegExp:', State.featureSet.enable_RegExp);
+                }
             }
         }
+        if (hit > 0) console.info('[OpenRouter 中文化插件] 兜底扫描 完成,扫描文本节点:' + count + ',命中 selected:' + hit);
     }
 
     /* =========================== URL 变化监听 =========================== */
@@ -648,6 +657,7 @@
         // 静态词典查找(精确匹配)
         const staticResult = State.pageConfig.staticDict[text];
         if (typeof staticResult === 'string') {
+            if (/^\d+\s*selected$/.test(text)) console.info('[OpenRouter 中文化插件] fetchTransResult static 命中:', text, '=>', staticResult);
             return staticResult;
         }
 
@@ -656,10 +666,13 @@
             for (const [pattern, replacement] of State.pageConfig.regexpRules) {
                 const result = text.replace(pattern, replacement);
                 if (result !== text) {
+                    if (/^\d+\s*selected$/.test(text)) console.info('[OpenRouter 中文化插件] fetchTransResult regexp 命中:', text, '=>', result, '| pattern:', String(pattern));
                     return result;
                 }
             }
         }
+
+        if (/^\d+\s*selected$/.test(text)) console.warn('[OpenRouter 中文化插件] fetchTransResult selected 未命中任何规则:', text, '| enable_RegExp:', State.featureSet.enable_RegExp, '| regexpRules 数量:', State.pageConfig.regexpRules ? State.pageConfig.regexpRules.length : 0);
 
         // 开发者模式下记录未命中词条,便于完善词库
         if (State.featureSet.enable_dev) {
