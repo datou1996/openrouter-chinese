@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.3.7
+// @version      1.3.8
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.7
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.8
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue

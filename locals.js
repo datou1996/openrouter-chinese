@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.3.7',
+  version: '1.3.8',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -685,7 +685,7 @@ const I18N = {
         [/^(\$?[\d.]+)\/M\s*(tokens|characters|chars|UTF-8 bytes|bytes)$/, (m, price, unit) => price + '/百万 ' + ({ tokens: 'Token', characters: '字符', chars: '字符', 'UTF-8 bytes': 'UTF-8 字节', bytes: '字节' }[unit])],
         // 带空格或小数变体,如 "$15 /M UTF-8 bytes"、"$15.00/M UTF-8 bytes"
         [/^(\$?[\d.]+)\s*\/\s*M\s*(tokens|characters|chars|UTF-8 bytes|bytes)$/, (m, price, unit) => price + '/百万 ' + ({ tokens: 'Token', characters: '字符', chars: '字符', 'UTF-8 bytes': 'UTF-8 字节', bytes: '字节' }[unit])],
-        [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒' }[unit])],
+        [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms|search|query|request|turn|page|day|week|month|video|audio|step)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒', search: '次搜索', query: '次查询', request: '次请求', turn: '轮', page: '页', day: '天', week: '周', month: '月', video: '个视频', audio: '个音频', step: '步' }[unit])],
         // "from $0.04/image"
         [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
         // "from $0.10"(无单位后缀)
