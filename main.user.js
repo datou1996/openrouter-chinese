@@ -2,7 +2,7 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.19
+// @version      1.5.20
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
@@ -188,7 +188,6 @@
      * 这些节点可能因虚拟列表复用、React Portal 等复杂原因从未被 TreeWalker 访问
      */
     function patchMissedNodes() {
-        console.info('[OpenRouter 中文化插件] 兜底扫描 执行中... body 子节点数:' + document.body.childNodes.length);
         let hit = 0;
         try {
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -202,12 +201,7 @@
             if (isBenchmarks || /selected/i.test(text)) {
                 hit++;
                 const result = transText(text);
-                if (result) {
-                    node.data = result;
-                } else if (/complete\s*tables/i.test(text)) {
-                    // 调试:输出未命中的 complete tables 节点真实字符
-                    console.info('[OpenRouter 中文化插件] 未命中 complete tables 节点:', JSON.stringify(text), '长度:', text.length, '字符码:', Array.from(text).map(c => c.codePointAt(0).toString(16)).join(','), '/ 词库版本:', I18N.version);
-                }
+                if (result) node.data = result;
             }
         }
         } catch (e) { console.error('[OpenRouter 中文化插件] 兜底扫描 异常:', e); }
