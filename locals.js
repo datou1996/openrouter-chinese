@@ -683,6 +683,8 @@ const I18N = {
         [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒' }[unit])],
         // "from $0.04/image"
         [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
+        // "from $0.10"(无单位后缀)
+        [/^from \$([\d.]+)$/, (m, price) => '起价 $' + price],
         // 折扣徽章,如 "90% off"
         [/^(\d+)% off$/, '$1% 折扣'],
         // 价格,如 "$0.95/M input"、"$4/M output"(与 "tokens" 拆分显示的情况)
