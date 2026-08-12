@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.3.3
+// @version      1.3.4
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.3
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.4
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -87,6 +87,8 @@
     /* =========================== 初始化入口 =========================== */
     function init() {
         checkI18NLoaded();
+        // 输出版本信息,便于确认是否加载了最新词库
+        console.info('[OpenRouter 中文化插件] v1.3.4 已启动,词库词条数: ' + Object.keys(I18N['zh-CN'].public.static).length);
         initLangEnv();
         setupMenuCommands();
         setupInitTrans();
