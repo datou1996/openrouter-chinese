@@ -670,6 +670,8 @@ const I18N = {
         [/^(\d+(?:\.\d+)?)\s*(years?|months?|weeks?|days?|hours?|minutes?|seconds?|chars?)$/, (m, num, unit) => num + ' ' + ({ years: '年', year: '年', months: '个月', month: '个月', weeks: '周', week: '周', days: '天', day: '天', hours: '小时', hour: '小时', minutes: '分钟', minute: '分钟', seconds: '秒', second: '秒', chars: '字符', char: '字符' }[unit])],
         // 排名提示,如 "Ranked at #22 in Science category"
         [/^Ranked at #(\d+) in (.+) category$/, '在$2类别中排名第 $1 位'],
+        // 数字+单位,如 "5M UTF-8 bytes"、"1.2B characters"、"15M tokens"
+        [/^(\d+(?:\.\d+)?[KMB]?)\s*(UTF-8 bytes|characters|chars|bytes|tokens|words)$/, (m, num, unit) => num + ' ' + ({ 'UTF-8 bytes': 'UTF-8 字节', characters: '字符', chars: '字符', bytes: '字节', tokens: 'Token', words: '词' }[unit])],
         // 年龄/时长范围,如 "0-3 mo"、"6-12 y"、"12+ mo"
         [/^(\d+)-(\d+)\s*(mo|y|w|d|h|m|s)$/, (m, a, b, unit) => a + '-' + b + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
         [/^(\d+)\+\s*(mo|y|w|d|h|m|s)$/, (m, num, unit) => num + ' ' + ({ mo: '个月以上', y: '年以上', w: '周以上', d: '天以上', h: '小时以上', m: '分钟以上', s: '秒以上' }[unit])],
@@ -835,6 +837,11 @@ const I18N = {
         'Coding Index score (0-100)': '编码指数得分 (0-100)',
         'Agentic Index score (0-100)': '智能体指数得分 (0-100)',
         'DA ELO': '设计竞技场 ELO',
+        // 通用片段:提示词为 "Design Arena" + 分类 + 该片段 的三段结构
+        'ELO from head-to-head arena battles': 'ELO(来自正面竞技场对战)',
+        'Intelligence': '智能',
+        'Coding': '编码',
+        'Agentic': '智能体',
         'Design Arena Code Categories ELO from head-to-head arena battles': '设计竞技场 代码分类 ELO(来自正面竞技场对战)',
         'Design Arena UI Component ELO from head-to-head arena battles': '设计竞技场 UI 组件 ELO(来自正面竞技场对战)',
         'Design Arena Game Development ELO from head-to-head arena battles': '设计竞技场 游戏开发 ELO(来自正面竞技场对战)',
