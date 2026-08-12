@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.3
+// @version      1.5.4
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.3
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.4
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -200,6 +200,11 @@
         }
         } catch (e) { console.error('[OpenRouter 中文化插件] 兜底扫描 异常:', e); }
         console.info('[OpenRouter 中文化插件] 兜底扫描 完成,扫描文本节点:' + count + ',命中 selected:' + hit);
+        // React 可能在此次翻译后立即重渲染回退英文,1s/2.5s 后追加两次快速重扫
+        if (hit > 0) {
+            setTimeout(() => safe(patchMissedNodes, '兜底重扫1'), 1000);
+            setTimeout(() => safe(patchMissedNodes, '兜底重扫2'), 2500);
+        }
     }
 
     /* =========================== URL 变化监听 =========================== */
