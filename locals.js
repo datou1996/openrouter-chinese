@@ -145,6 +145,8 @@ const I18N = {
         'mo': '月',
         'from': '起',
         'image': '图像',
+        'Artificial Analysis': '人工分析',
+        'Design Arena': '设计竞技场',
         'new': '新',
         'Token': 'Token 数',
         'quantization': '量化',
@@ -668,6 +670,15 @@ const I18N = {
         [/^(\d+(?:\.\d+)?)\s*(years?|months?|weeks?|days?|hours?|minutes?|seconds?|chars?)$/, (m, num, unit) => num + ' ' + ({ years: '年', year: '年', months: '个月', month: '个月', weeks: '周', week: '周', days: '天', day: '天', hours: '小时', hour: '小时', minutes: '分钟', minute: '分钟', seconds: '秒', second: '秒', chars: '字符', char: '字符' }[unit])],
         // 排名提示,如 "Ranked at #22 in Science category"
         [/^Ranked at #(\d+) in (.+) category$/, '在$2类别中排名第 $1 位'],
+        // 年龄/时长范围,如 "0-3 mo"、"6-12 y"、"12+ mo"
+        [/^(\d+)-(\d+)\s*(mo|y|w|d|h|m|s)$/, (m, a, b, unit) => a + '-' + b + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
+        [/^(\d+)\+\s*(mo|y|w|d|h|m|s)$/, (m, num, unit) => num + ' ' + ({ mo: '个月以上', y: '年以上', w: '周以上', d: '天以上', h: '小时以上', m: '分钟以上', s: '秒以上' }[unit])],
+        [/^(\d+(?:\.\d+)?)\s*(mo|y|w|d|h|m|s)\+?$/, (m, num, unit) => num + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
+        // 价格单位,如 "$0.10/hour"、"$4/M tokens"、"$0.04/image"、"0.02/M characters"
+        [/^(\$?[\d.]+)\/M\s*(tokens|characters|chars)$/, (m, price, unit) => price + '/百万' + ({ tokens: 'Token', characters: '字符', chars: '字符' }[unit])],
+        [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒' }[unit])],
+        // "from $0.04/image"
+        [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
         // 折扣徽章,如 "90% off"
         [/^(\d+)% off$/, '$1% 折扣'],
         // 价格,如 "$0.95/M input"、"$4/M output"(与 "tokens" 拆分显示的情况)
@@ -787,8 +798,6 @@ const I18N = {
         'Model age': '模型年龄',
         'Inactive Models': '非活跃模型',
         'Model Authors': '模型作者',
-        'Artificial Analysis': 'Artificial Analysis',
-        'Design Arena': 'Design Arena',
         'context': '上下文',
         'input': '输入',
         'output': '输出',
@@ -879,6 +888,18 @@ const I18N = {
         'Audio Hours': '音频小时',
         'hour': '小时',
         'Performance': '性能',
+        // 模态与参考输入
+        'Video Output': '视频输出',
+        'File Input': '文件输入',
+        'Audio Input': '音频输入',
+        'Video Input': '视频输入',
+        'Font Input': '字体输入',
+        'Super Resolution': '超分辨率',
+        'megapixel': '百万像素',
+        'font': '字体',
+        'reference': '参考',
+        'song': '首',
+        'Video Tokens': '视频 Token',
       },
       regexp: [
         // 价格行,如 "$0.95/M input tokens" -> "$0.95/M 输入 Token"
