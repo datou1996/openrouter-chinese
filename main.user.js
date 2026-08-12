@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.3.2
+// @version      1.3.3
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.2
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.3
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -592,9 +592,11 @@
             return false;
         }
 
-        // 清理文本:去除首尾空格和多余空白
+        // 清理文本:去除首尾空格和多余空白,并剥离零宽字符(React 渲染常混入 \u200b 等)
         const trimmedText = text.trim();
-        const cleanedText = trimmedText.replace(/\xa0|[\s]+/g, ' ');
+        const cleanedText = trimmedText
+            .replace(/\xa0|[\s]+/g, ' ')
+            .replace(/[\u200b\u200c\u200d\ufeff]/g, '');
 
         // 获取翻译
         const result = fetchTransResult(cleanedText);

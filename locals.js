@@ -687,6 +687,8 @@ const I18N = {
         [/^from \$([\d.]+)$/, (m, price) => '起价 $' + price],
         // 折扣徽章,如 "90% off"
         [/^(\d+)% off$/, '$1% 折扣'],
+        // 容错变体:空格位置任意,如 "60 %off"、"60% off"
+        [/^(\d+)\s*%\s*off$/, '$1% 折扣'],
         // 价格,如 "$0.95/M input"、"$4/M output"(与 "tokens" 拆分显示的情况)
         [/^\$[\d.]+\/M\s*(input|output)$/, (match, p) => match.replace(/(input|output)$/, p === 'input' ? '输入' : '输出')],
         // 上下文长度,如 "262K context"、"1M context"
