@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.3.9',
+  version: '1.3.10',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -118,6 +118,9 @@ const I18N = {
         'Spend': '花费',
         'Total': '总计',
         'TOTAL': '总计',
+        // 独立标点节点(React 将句号/省略号拆为单独文本节点)
+        '.': '。',
+        '...': '…',
         'Prompt': '提示词',
         'Completion': '补全',
         'Reasoning': '推理',
@@ -777,6 +780,7 @@ const I18N = {
         'Signup': '注册',
         'Create an account to get started. You can set up an org for your team later.': '创建账户开始使用。您之后可以为团队设置组织。',
         'Create an account': '创建账户',
+        'Create an API key and start making requests.': '创建 API 密钥并开始发起请求。',
         'Create an API key and start making requests.': '创建 API 密钥并开始发起请求。',
         'Fully OpenAI compatible': '完全兼容 OpenAI',
         'Recent Blog Posts': '最新博客文章',
