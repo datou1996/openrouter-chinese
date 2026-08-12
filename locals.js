@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.4.2',
+  version: '1.4.3',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -1363,6 +1363,7 @@ const I18N = {
         'Default (0-100)': '默认（0-100）',
         'SAFETY': '安全',
         'Moderation': '审核',
+        'moderation': '审核',
         'Timezone': '时区',
         'Auto (e.g. America/New_York)': '自动（例如：America/New_York）',
         'Analysis Models': '分析模型',
@@ -1397,8 +1398,10 @@ const I18N = {
         'for exact charges.': '查看精确费用。',
         'Strategy': '策略',
         'latest': '最新',
+        'Region': '区域',
         'Tokens per second': '每秒 Token 数',
         'Token count': 'Token 数量',
+        'Cost': '费用',
         'Copy Code': '复制代码',
         'Chat memory: all messages': '聊天记忆：所有消息',
       },
