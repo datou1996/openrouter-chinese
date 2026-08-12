@@ -2,7 +2,7 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.8
+// @version      1.5.9
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
@@ -278,6 +278,7 @@
                 ...(I18N.conf.ignoreSelectorPage[pageType] || [])
             ].join(', '),
             characterData: (I18N.conf.characterDataPage || []).includes(pageType), // 是否监视文本节点变化
+            maxTextLength: pageType === 'benchmarks' ? 2000 : 500, // 文本节点长度上限(基准测试页含长段落介绍)
         };
     }
 
@@ -500,7 +501,7 @@
      * @param {Node} node - 文本节点
      */
     function handleTextNode(node) {
-        if (node.length > 500) return; // 跳过长文本节点(AI 回复等)
+        if (node.length > State.pageConfig.maxTextLength) return; // 跳过长文本节点(AI 回复等)
         transTextNode(node);
     }
 
