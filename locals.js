@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.14',
+  version: '1.5.15',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -3244,6 +3244,7 @@ const I18N = {
         'OpenAI BrowseComp Example 1': 'OpenAI BrowseComp 示例 1',
         'See how answer-item accuracy changes with search budget; complete-table success appears beneath. Missing cells were not run.': '查看答案项准确率如何随搜索预算变化;完整表格成功率显示在下方。缺失的单元格表示未运行。',
         'Verified configurations for all models, ranked by answer-item accuracy; complete-table success and intervals are shown too.': '所有模型的已验证配置,按答案项准确率排序;同时显示完整表格成功率和区间。',
+        'Verified configurations for GPT-5.6 Sol · high, ranked by answer-item accuracy; complete-table success and intervals are shown too.': 'GPT-5.6 Sol · 高的已验证配置,按答案项准确率排序;同时显示完整表格成功率和区间。',
         'Clinic': '诊所',
         'County': '县',
         'Address': '地址',
@@ -3322,6 +3323,8 @@ const I18N = {
         [/^shown$/, ' 个已显示'],
         // "3.9% → 2.6%" 等错误率对比
         [/^([\d.]+%) → ([\d.]+%)$/, '$1 → $2'],
+        // "Verified configurations for <模型> · <级别>, ranked by..." 动态变体
+        [/^Verified configurations for (.+? \u00b7 (?:high|xhigh|medium|low)), ranked by answer-item accuracy; complete-table success and intervals are shown too\.$/, '$1 的已验证配置,按答案项准确率排序;同时显示完整表格成功率和区间。'],
         // 基准测试页标题,如 "GPQA Diamond Leaderboard | OpenRouter"
         [/^(.+) Leaderboard \| OpenRouter$/, '$1 排行榜 | OpenRouter'],
       ],

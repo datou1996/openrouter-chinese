@@ -2,7 +2,7 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.14
+// @version      1.5.15
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
@@ -185,8 +185,11 @@
         let node;
         while ((node = walker.nextNode())) {
             const text = node.data;
-            if (!text || text.length > 30) continue;
-            if (/selected/i.test(text)) {
+            // 限制长度,避免处理 AI 回复等长文本
+            if (!text || text.length > 500) continue;
+            // 基准测试页内容动态渲染,对所有英文文本尝试翻译;其他页仅处理已知顽固模式
+            const isBenchmarks = State.pageConfig?.currentPageType === 'benchmarks';
+            if (isBenchmarks || /selected/i.test(text)) {
                 hit++;
                 const result = transText(text);
                 if (result) node.data = result;
