@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.4.3',
+  version: '1.4.4',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -1404,6 +1404,13 @@ const I18N = {
         'Cost': '费用',
         'Copy Code': '复制代码',
         'Chat memory: all messages': '聊天记忆：所有消息',
+        // 消息颜色选项
+        'Blue': '蓝色',
+        'Green': '绿色',
+        'Yellow': '黄色',
+        'Orange': '橙色',
+        'Pink': '粉色',
+        'Purple': '紫色',
       },
       regexp: [
         // 工具启用数量,如 "Tools: 3 active"
