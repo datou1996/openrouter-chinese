@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.10',
+  version: '1.5.11',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -3040,6 +3040,25 @@ const I18N = {
         '3.9% → 2.6%': '3.9% → 2.6%',
         '11/100 correct': '11/100 正确',
         'correct': '正确',
+        // 表格 Std dev 列说明
+        'Top-level rows show standard deviation across runs using default routing (not pinned to a provider); provider rows show standard deviation across runs pinned to that provider.': '顶级行显示使用默认路由（不固定到提供商）跨运行的标准差;提供商行显示固定到该提供商跨运行的标准差。',
+        // Pareto 说明
+        'Pareto': '帕累托',
+        'Pareto-optimal: no other model is both cheaper and more accurate. See the Accuracy vs. cost chart.': '帕累托最优:没有其他模型既更便宜又更准确。请参阅「准确率 vs 成本」图表。',
+        // 长句拆分节点(browsecomp/hle)
+        'Every run persists its exact model, engine, request format, search budget, cost, and available timing telemetry. Missing configurations stay missing in the comparison table, and': '每次运行都会持久保存其确切的模型、引擎、请求格式、搜索预算、成本和可用的计时遥测。缺失的配置在对比表中保持缺失,并且',
+        'absent or zero telemetry is not treated as free or instantaneous performance.': '缺失或为零的遥测不会被视为免费或瞬时性能。',
+        'absent or zero timing telemetry is not treated as instantaneous performance.': '缺失或为零的计时遥测不会被视为瞬时性能。',
+        // WideSearch 图表图例与提示
+        'Samples': '样本数',
+        'Solid = complete tables, where every required row and cell is correct. Translucent = answer-item accuracy, balancing items found against incorrect extras. The tick marks where answer-item accuracy lands, not a baseline or median.': '实心 = 完整表格,即每个必需行和单元格都正确。半透明 = 答案项准确率,在找到的条目与多余的错误条目之间权衡。刻度线标记答案项准确率落在何处,而非基线或中位数。',
+        'One row per provider: this is the provider\'s highest answer-item-accuracy lane.': '每个提供商一行:这是该提供商答案项准确率最高的赛道。',
+        'The maximum number of agent turns allowed for search. A run may use fewer turns.': '搜索允许的最大智能体轮数。一次运行可以使用更少的轮数。',
+        'complete tables': '完整表格',
+        // 其他遗漏词条
+        'Cost and quality': '成本与质量',
+        'On the frontier': '位于前沿',
+        'Time and quality': '时间与质量',
         // 搜索类基准页共用内容:为何运行/分数含义/评分方式/方法论/API 访问
         'We run it with the model held fixed because that isolates the variables OpenRouter users actually control. Those are which engine handles the searches, whether search runs as a server tool or a plugin, and how many agent turns the loop is allowed. Those knobs are exactly what you can set on a request today.': '我们在模型固定的情况下运行,因为这样能隔离出 OpenRouter 用户实际可控的变量:由哪个引擎处理搜索、搜索是作为服务端工具还是插件运行,以及循环允许多少智能体轮次。这些旋钮正是您现在可以在请求中设置的。',
         'These scores compare search configurations, not agent products. The model reads search result excerpts only, with no full-page fetching and no code tools, so absolute numbers sit below published agent leaderboards, which allow both. Compare configurations rather than raw levels.': '这些分数比较的是搜索配置,而非智能体产品。模型只读取搜索结果摘要,不能抓取整页,也没有代码工具,因此绝对数值低于允许两者的已发布智能体排行榜。请比较配置而非原始水平。',
