@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.16',
+  version: '1.5.17',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -3058,6 +3058,9 @@ const I18N = {
         'One row per provider: this is the provider\'s highest answer-item-accuracy lane.': '每个提供商一行:这是该提供商答案项准确率最高的赛道。',
         'The maximum number of agent turns allowed for search. A run may use fewer turns.': '搜索允许的最大智能体轮数。一次运行可以使用更少的轮数。',
         'complete tables': '完整表格',
+        // "complete tables" 被 React 拆分为独立单词节点的情况
+        'complete': '完整',
+        'tables': '表格',
         // 其他遗漏词条
         'Cost and quality': '成本与质量',
         'On the frontier': '位于前沿',
@@ -3274,6 +3277,8 @@ const I18N = {
         [/^([\d.]+)% complete tables$/, '$1% 完整表格'],
         // 兼容 % 后混入零宽字符或异常空格的形态
         [/^([\d.]+)%[\s\u200b\u200c\u200d\ufeff\u00a0]*complete tables$/, '$1% 完整表格'],
+        // 兼容 complete 与 tables 之间也混入零宽字符/空格的形态
+        [/^([\d.]+)%[\s\u200b\u200c\u200d\ufeff\u00a0]*complete[\s\u200b\u200c\u200d\ufeff\u00a0]*tables$/i, (m, n) => n + '% 完整表格'],
         // "Answer-item accuracy 62.2%"
         [/^Answer-item accuracy ([\d.]+)%$/, '答案项准确率 $1%'],
         // "3 Confidence: 45%"、"2 Confidence: 80%"(数字+置信度组合)
