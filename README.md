@@ -2,6 +2,16 @@
 
 > 让 [OpenRouter](https://openrouter.ai) 界面全面中文化 | 实现方式参考 [github-chinese](https://github.com/maboloshi/github-chinese)
 
+## 一键安装
+
+[![安装脚本](https://img.shields.io/badge/一键安装-OpenRouter%20中文化插件-blue)](https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/main.user.js)
+
+点击上方按钮(或下方链接),Tampermonkey 会自动弹出安装确认:
+
+- **一键安装(推荐)**:https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/main.user.js
+
+> 需要先安装 [Tampermonkey](http://tampermonkey.net/)(或 Violentmonkey),安装后刷新 OpenRouter 页面即可生效。
+
 ## 功能特性
 
 - 全面中文化 OpenRouter 界面(导航、页脚、按钮、表单、弹窗、模型列表/详情、聊天、排行榜、文档、定价、提供商、工作区、设置、活动、日志等 20+ 页面类型)
@@ -17,7 +27,7 @@
 ## 安装指南
 
 1. 安装脚本管理器 [Tampermonkey](http://tampermonkey.net/)(或 Violentmonkey)
-2. 直接安装主脚本(词库通过 `@require` 自动加载):
+2. 点击上方"一键安装"按钮(或直接访问下面的链接),Tampermonkey 会弹出安装确认页,点击"安装"即可:
 
 ```
 https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/main.user.js
@@ -50,30 +60,6 @@ Tampermonkey 会缓存 `@require` 的外部文件,更新词库后需要强制刷
 
 - Tampermonkey 菜单 → **"诊断:扫描未翻译词条"**,把控制台输出的节点内容(含字节码与匹配结果)发到 [Issues](https://github.com/datou1996/openrouter-chinese/issues),即可精确修复
 - 或启用**开发者模式**,刷新页面后控制台会记录未翻译词条
-
-### 3. GitHub 推送失败(网络问题)
-
-若 `git push` 频繁失败,可配置走本地代理(如 Clash):
-
-```bash
-# Clash 默认混合端口为 7890,按你的实际端口调整
-git config --global http.proxy http://127.0.0.1:7890
-git config --global https.proxy http://127.0.0.1:7890
-```
-
-验证代理生效:
-
-```bash
-git config --global --get http.proxy   # 应输出 http://127.0.0.1:7890
-git push origin main
-```
-
-取消代理:
-
-```bash
-git config --global --unset http.proxy
-git config --global --unset https.proxy
-```
 
 ## 本地调试
 
