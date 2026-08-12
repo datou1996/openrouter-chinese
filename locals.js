@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.17',
+  version: '1.5.18',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -3268,13 +3268,20 @@ const I18N = {
         [/^(Most Accurate|Best Value|Fastest|Most Capable) (\d+) items$/, (m, label, num) => ({ 'Most Accurate': '最准确的', 'Best Value': '最佳性价比', 'Fastest': '最快', 'Most Capable': '能力最强' }[label]) + ' ' + num + ' 项'],
         // "35.8% correct" 等正确率
         [/^([\d.]+)% correct$/, '$1% 正确'],
+        // React 拆分:"35.8" 与 "% correct" 为独立文本节点
+        [/^% correct$/, '% 正确'],
         // "342 of 447" 等数量占比
         [/^(\d+) of (\d+)$/, '$1 / 共 $2'],
         // "4 search providers"
         [/^(\d+) search providers$/, '$1 个搜索提供商'],
         // "80.0% answer-item accuracy"、"21.0% complete tables"
         [/^([\d.]+)% answer-item accuracy$/, '$1% 答案项准确率'],
+        // React 拆分:"80.0" 与 "% answer-item accuracy" 为独立文本节点
+        [/^% answer-item accuracy$/, '% 答案项准确率'],
         [/^([\d.]+)% complete tables$/, '$1% 完整表格'],
+        // React 拆分:"13.0" 与 "% complete tables" 为独立文本节点
+        [/^% complete tables$/, '% 完整表格'],
+        [/^% complete tables,$/, '% 完整表格,'],
         // 兼容 % 后混入零宽字符或异常空格的形态
         [/^([\d.]+)%[\s\u200b\u200c\u200d\ufeff\u00a0]*complete tables$/, '$1% 完整表格'],
         // 兼容 complete 与 tables 之间也混入零宽字符/空格的形态
