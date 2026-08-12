@@ -676,8 +676,8 @@ const I18N = {
         [/^(\d+)-(\d+)\s*(mo|y|w|d|h|m|s)$/, (m, a, b, unit) => a + '-' + b + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
         [/^(\d+)\+\s*(mo|y|w|d|h|m|s)$/, (m, num, unit) => num + ' ' + ({ mo: '个月以上', y: '年以上', w: '周以上', d: '天以上', h: '小时以上', m: '分钟以上', s: '秒以上' }[unit])],
         [/^(\d+(?:\.\d+)?)\s*(mo|y|w|d|h|m|s)\+?$/, (m, num, unit) => num + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
-        // 价格单位,如 "$0.10/hour"、"$4/M tokens"、"$0.04/image"、"0.02/M characters"
-        [/^(\$?[\d.]+)\/M\s*(tokens|characters|chars)$/, (m, price, unit) => price + '/百万' + ({ tokens: 'Token', characters: '字符', chars: '字符' }[unit])],
+        // 价格单位,如 "$0.10/hour"、"$4/M tokens"、"$0.04/image"、"0.02/M characters"、"$15/M UTF-8 bytes"
+        [/^(\$?[\d.]+)\/M\s*(tokens|characters|chars|UTF-8 bytes|bytes)$/, (m, price, unit) => price + '/百万 ' + ({ tokens: 'Token', characters: '字符', chars: '字符', 'UTF-8 bytes': 'UTF-8 字节', bytes: '字节' }[unit])],
         [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒' }[unit])],
         // "from $0.04/image"
         [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
