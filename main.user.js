@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.4.8
+// @version      1.4.9
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.4.8
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.4.9
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -547,7 +547,11 @@
         const text = node.data;
         const result = transText(text);
         if (result) {
+            // 调试:selected 类型的词条是否被匹配
+            if (/^\d+\s*selected$/i.test(text)) console.info('[OpenRouter 中文化插件] 翻译 selected:', text, '=>', result, '位置:', node.parentElement ? node.parentElement.tagName + '.' + String(node.parentElement.className).slice(0, 50) : '');
             node.data = result;
+        } else if (/^\d+\s*selected$/i.test(text)) {
+            console.warn('[OpenRouter 中文化插件] selected 未匹配:', text, '| 位置:', node.parentElement ? node.parentElement.tagName + '.' + String(node.parentElement.className).slice(0, 50) : '', '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null');
         }
     }
 
