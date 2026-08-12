@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.4.4',
+  version: '1.4.5',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -1411,6 +1411,46 @@ const I18N = {
         'Orange': '橙色',
         'Pink': '粉色',
         'Purple': '紫色',
+        // 聊天菜单与高级设置
+        'Export Chat': '导出聊天',
+        'Import Chat': '导入聊天',
+        'Export Markdown': '导出 Markdown',
+        'Duplicate Chat': '复制聊天',
+        'Color label': '颜色标签',
+        'Reasoning is mandatory for this model': '此模型必须启用推理',
+        'Hide model': '隐藏模型',
+        'Advanced settings': '高级设置',
+        'Preset': '预设',
+        'Select Preset...': '选择预设…',
+        'Select Preset…': '选择预设…',
+        'Search providers': '搜索提供商',
+        'Sort By': '排序方式',
+        'Enable Streaming': '启用流式传输',
+        'File Parser Engine': '文件解析引擎',
+        'Select Engine': '选择引擎',
+        'Enable Reasoning': '启用推理',
+        'Disable reasoning': '禁用推理',
+        'Enable reasoning': '启用推理',
+        'Max': '最大',
+        'XHigh': '极高',
+        'Minimal': '极低',
+        'System Prompt': '系统提示词',
+        'Use OpenRouter\u2019s default system prompt or choose custom.': '使用 OpenRouter 的默认系统提示词或选择自定义。',
+        'Use OpenRouter\'s default system prompt or choose custom.': '使用 OpenRouter 的默认系统提示词或选择自定义。',
+        'e.g. You are a world-class pirate captain.': '例如：您是一位世界级的海盗船长。',
+        'Sampling Parameters': '采样参数',
+        'Max Tokens': '最大 Token 数',
+        'Top P': 'Top P',
+        'Top K': 'Top K',
+        'Frequency Penalty': '频率惩罚',
+        'Presence Penalty': '存在惩罚',
+        'Repetition Penalty': '重复惩罚',
+        'Min P': 'Min P',
+        'Top A': 'Top A',
+        'Apply to All': '全部应用',
+        'Find in conversation': '在对话中查找',
+        'Press': '按下',
+        'when the field is empty or its text is selected to use browser search': '在字段为空或文本被选中时使用浏览器搜索',
       },
       regexp: [
         // 工具启用数量,如 "Tools: 3 active"
