@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.4.0',
+  version: '1.4.1',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -2516,6 +2516,7 @@ const I18N = {
         'Humanity\'s Last Exam as a search benchmark: expert questions answered with live search.': '作为搜索基准的"人类最后的考试"：通过实时搜索回答专家级问题。',
         'Fill an entire table; answer-item accuracy scores partial matches.': '填满整个表格；答案条目准确率对部分匹配计分。',
         'For usage-based views of the same models, see the': '如需查看相同模型的用量视图，请参阅',
+        'Independent, reproducible measurements of the knobs you can actually set on an OpenRouter request: models, providers, search engines, and tool budgets. Every score links to the configuration, costs, and telemetry behind it.': '对您可以在 OpenRouter 请求中实际设置的各项旋钮（模型、提供商、搜索引擎和工具预算）进行独立、可复现的测量。每个分数都链接到其背后的配置、成本和遥测数据。',
         'model rankings': '模型排行榜',
         'and the': '和',
         'full model list': '完整模型列表',
@@ -2673,6 +2674,7 @@ const I18N = {
         'Reset Filters': '重置筛选',
         // 提供商对比页
         'Compare providers': '对比提供商',
+        'Compare model providers on OpenRouter side by side — catalog size and throughput, data handling and retention policies, BYOK support, and their terms of service and privacy policies.': '并排对比 OpenRouter 上的模型提供商——目录规模与吞吐量、数据处理与保留策略、自带密钥支持,以及它们的服务条款和隐私政策。',
         'Select a provider': '选择一个提供商',
         'Add provider': '添加提供商',
         'Highlight best': '高亮最佳',
