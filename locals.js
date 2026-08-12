@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.20',
+  version: '1.5.21',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -829,6 +829,10 @@ const I18N = {
         'results': '条结果',
         'No models found': '未找到模型',
         'Try adjusting your filters': '尝试调整您的筛选条件',
+        // 表格设置:行密度
+        'Compact': '紧凑',
+        'Regular': '常规',
+        'Expanded': '展开',
         // "+7 categories" 被拆分为 "+" + "7" + " categories" 三个文本节点
         '+': '另外 ',
         'categories': '个类别',
