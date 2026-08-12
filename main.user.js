@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.4
+// @version      1.5.5
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.4
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.5
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -179,27 +179,20 @@
      */
     function patchMissedNodes() {
         console.info('[OpenRouter 中文化插件] 兜底扫描 执行中... body 子节点数:' + document.body.childNodes.length);
-        let count = 0, hit = 0;
+        let hit = 0;
         try {
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
         let node;
         while ((node = walker.nextNode())) {
             const text = node.data;
             if (!text || text.length > 30) continue;
-            count++;
-            if (/selected/i.test(text) && text.length < 15) {
+            if (/selected/i.test(text)) {
                 hit++;
                 const result = transText(text);
-                if (result) {
-                    console.info('[OpenRouter 中文化插件] 兜底扫描 命中 selected:', text, '=>', result);
-                    node.data = result;
-                } else {
-                    console.warn('[OpenRouter 中文化插件] 兜底扫描 selected transText 返回 false:', text, '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null', '| enable_RegExp:', State.featureSet.enable_RegExp);
-                }
+                if (result) node.data = result;
             }
         }
         } catch (e) { console.error('[OpenRouter 中文化插件] 兜底扫描 异常:', e); }
-        console.info('[OpenRouter 中文化插件] 兜底扫描 完成,扫描文本节点:' + count + ',命中 selected:' + hit);
         // React 可能在此次翻译后立即重渲染回退英文,1s/2.5s 后追加两次快速重扫
         if (hit > 0) {
             setTimeout(() => safe(patchMissedNodes, '兜底重扫1'), 1000);
@@ -588,11 +581,7 @@
         const text = node.data;
         const result = transText(text);
         if (result) {
-            // 调试:selected 类型的词条是否被匹配
-            if (/^\d+\s*selected$/i.test(text)) console.info('[OpenRouter 中文化插件] 翻译 selected:', text, '=>', result, '位置:', node.parentElement ? node.parentElement.tagName + '.' + String(node.parentElement.className).slice(0, 50) : '');
             node.data = result;
-        } else if (/^\d+\s*selected$/i.test(text)) {
-            console.warn('[OpenRouter 中文化插件] selected 未匹配:', text, '| 位置:', node.parentElement ? node.parentElement.tagName + '.' + String(node.parentElement.className).slice(0, 50) : '', '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null');
         }
     }
 
@@ -669,7 +658,6 @@
         // 静态词典查找(精确匹配)
         const staticResult = State.pageConfig.staticDict[text];
         if (typeof staticResult === 'string') {
-            if (/^\d+\s*selected$/.test(text)) console.info('[OpenRouter 中文化插件] fetchTransResult static 命中:', text, '=>', staticResult);
             return staticResult;
         }
 
@@ -678,13 +666,10 @@
             for (const [pattern, replacement] of State.pageConfig.regexpRules) {
                 const result = text.replace(pattern, replacement);
                 if (result !== text) {
-                    if (/^\d+\s*selected$/.test(text)) console.info('[OpenRouter 中文化插件] fetchTransResult regexp 命中:', text, '=>', result, '| pattern:', String(pattern));
                     return result;
                 }
             }
         }
-
-        if (/^\d+\s*selected$/.test(text)) console.warn('[OpenRouter 中文化插件] fetchTransResult selected 未命中任何规则:', text, '| enable_RegExp:', State.featureSet.enable_RegExp, '| regexpRules 数量:', State.pageConfig.regexpRules ? State.pageConfig.regexpRules.length : 0);
 
         // 开发者模式下记录未命中词条,便于完善词库
         if (State.featureSet.enable_dev) {
