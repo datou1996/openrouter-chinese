@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.1
+// @version      1.5.2
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.1
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.2
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -160,6 +160,10 @@
                 State.mutationObserver.disconnect();
                 State.mutationObserver = null;
                 setupMutationObserver();
+                // body 被替换后延迟执行兜底扫描,等 React 渲染完成
+                setTimeout(() => {
+                    if (State.pageConfig) safe(patchMissedNodes, '兜底扫描(body替换)')();
+                }, 1500);
             }
             if (State.pageConfig) {
                 safe(traverseNode, '周期重扫')(document.body);
@@ -174,7 +178,9 @@
      * 这些节点可能因虚拟列表复用、React Portal 等复杂原因从未被 TreeWalker 访问
      */
     function patchMissedNodes() {
+        console.info('[OpenRouter 中文化插件] 兜底扫描 执行中... body 子节点数:' + document.body.childNodes.length);
         let count = 0, hit = 0;
+        try {
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
         let node;
         while ((node = walker.nextNode())) {
@@ -192,7 +198,8 @@
                 }
             }
         }
-        if (hit > 0) console.info('[OpenRouter 中文化插件] 兜底扫描 完成,扫描文本节点:' + count + ',命中 selected:' + hit);
+        } catch (e) { console.error('[OpenRouter 中文化插件] 兜底扫描 异常:', e); }
+        console.info('[OpenRouter 中文化插件] 兜底扫描 完成,扫描文本节点:' + count + ',命中 selected:' + hit);
     }
 
     /* =========================== URL 变化监听 =========================== */
