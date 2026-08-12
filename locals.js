@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.4.7',
+  version: '1.4.8',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -1454,6 +1454,10 @@ const I18N = {
         'Find in conversation': '在对话中查找',
         'Press': '按下',
         'when the field is empty or its text is selected to use browser search': '在字段为空或文本被选中时使用浏览器搜索',
+        // 批量聊天操作
+        'Bulk chat actions': '批量聊天操作',
+        'Export selected chats': '导出选中的聊天',
+        'Delete selected chats': '删除选中的聊天',
       },
       regexp: [
         // 工具启用数量,如 "Tools: 3 active"
