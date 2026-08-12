@@ -885,10 +885,9 @@ const I18N = {
         'Input Price': '输入价格',
         'xx% off': 'xx% 折扣',
         'OpenRouter defaults to allowing prompts of "unlimited" length for this model, using a middle-out transform, which you can disable (and does not affect prompts of size less than the context length).': 'OpenRouter 默认允许此模型使用"无限"长度的提示词,采用 middle-out 变换,您可以禁用它(并且不影响小于上下文长度的提示词)。',
-        // 拆分片段(引号可能被拆为独立节点)
-        'OpenRouter defaults to allowing prompts of ': 'OpenRouter 默认允许此模型使用',
-        'unlimited': '"无限"',
-        ' length for this model, using a middle-out transform, which you can disable (and does not affect prompts of size less than the context length).': '"无限"长度的提示词,采用 middle-out 变换,您可以禁用它(并且不影响小于上下文长度的提示词)。',
+        // 拆分片段(middle-out 是链接,整句被 <a> 拆为三段)
+        'OpenRouter defaults to allowing prompts of "unlimited" length for this model, using a': 'OpenRouter 默认允许此模型使用"无限"长度的提示词,采用',
+        'transform, which you can disable (and does not affect prompts of size less than the context length).': '变换,您可以禁用它(并且不影响小于上下文长度的提示词)。',
         'Median time-to-first-token across providers (p50, 30 min rolling window)': '各提供商的中位首 Token 时间(P50,30 分钟滚动窗口)',
         'Median output throughput across providers (p50, 30 min rolling window)': '各提供商的中位输出吞吐量(P50,30 分钟滚动窗口)',
         '$/M tokens for text models. Audio/image/video models show their native unit (/minute, /second, etc.).': '文本模型以 $/M Token 计价。音频/图像/视频模型显示其原生单位(/分钟、/秒等)。',
