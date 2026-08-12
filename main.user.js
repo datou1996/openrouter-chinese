@@ -2,7 +2,7 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.18
+// @version      1.5.19
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
@@ -206,7 +206,7 @@
                     node.data = result;
                 } else if (/complete\s*tables/i.test(text)) {
                     // 调试:输出未命中的 complete tables 节点真实字符
-                    console.info('[OpenRouter 中文化插件] 未命中 complete tables 节点:', JSON.stringify(text), '长度:', text.length, '字符码:', Array.from(text).map(c => c.codePointAt(0).toString(16)).join(','));
+                    console.info('[OpenRouter 中文化插件] 未命中 complete tables 节点:', JSON.stringify(text), '长度:', text.length, '字符码:', Array.from(text).map(c => c.codePointAt(0).toString(16)).join(','), '/ 词库版本:', I18N.version);
                 }
             }
         }
