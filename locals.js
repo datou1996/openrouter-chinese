@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.6',
+  version: '1.5.7',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -2678,6 +2678,42 @@ const I18N = {
         'Task': '任务',
         'every': '每个',
         'search engine': '搜索引擎',
+        // 基准测试子页导航
+        'All benchmarks': '全部基准测试',
+        'Paper': '论文',
+        'Cost efficiency': '成本效率',
+        'Leaderboard': '排行榜',
+        'Example problems': '示例问题',
+        'Why we run it': '为何运行',
+        'What scores tell you': '分数含义',
+        'Methodology': '方法论',
+        'API access': 'API 访问',
+        // 亮点卡片
+        'Most Accurate': '最准确的',
+        'Most Capable': '能力最强',
+        'Best Value': '最佳性价比',
+        'Fastest': '最快',
+        // 表格列头与说明
+        'Accuracy': '准确率',
+        'Representative-run accuracy, best first.': '代表性运行的准确率,最佳优先。',
+        'Cost per question': '每题成本',
+        'Average cost per question, cheapest first.': '每题平均成本,最低优先。',
+        'Time per question': '每题耗时',
+        'Average wall-clock time per question, fastest first.': '每题平均实际耗时,最快优先。',
+        'Accuracy vs. cost (Pareto frontier)': '准确率 vs 成本(Pareto 前沿)',
+        'Std dev': '标准差',
+        'Cost / question': '成本/题',
+        'Time / question': '耗时/题',
+        'Output tok / question': '输出 Token/题',
+        'Pareto': 'Pareto',
+        'Budget': '预算',
+        'Score': '得分',
+        'score': '得分',
+        'Most Accurate 0 items': '最准确的 0 项',
+        'items': '项',
+        'Need higher accuracy? Try configurations with larger search budgets or later cutoff dates.': '需要更高准确率?尝试使用更大搜索预算或更晚截止日期的配置。',
+        'Only rows that evaluate every question are shown.': '仅显示评估了每个问题的行。',
+        'Highest Effective Score': '最高有效得分',
         'Independent, reproducible measurements of the knobs you can actually set on an OpenRouter request: models, providers, search engines, and tool budgets. Every score links to the configuration, costs, and telemetry behind it.': '对您可以在 OpenRouter 请求中实际设置的各项旋钮（模型、提供商、搜索引擎和工具预算）进行独立、可复现的测量。每个分数都链接到其背后的配置、成本和遥测数据。',
         'model rankings': '模型排行榜',
         'and the': '和',
@@ -2692,6 +2728,8 @@ const I18N = {
         [/^· (high|xhigh|medium|low)$/, (m, level) => '· ' + ({ high: '高', xhigh: '极高', medium: '中', low: '低' }[level])],
         // 模型名与推理强度同节点,如 "Claude Opus 5 · high"
         [/^(.+) · (high|xhigh|medium|low)$/, (m, name, level) => name + ' · ' + ({ high: '高', xhigh: '极高', medium: '中', low: '低' }[level])],
+        // "Most Accurate 42 items" 等数量标签
+        [/^(Most Accurate|Best Value|Fastest|Most Capable) (\d+) items$/, (m, label, num) => ({ 'Most Accurate': '最准确的', 'Best Value': '最佳性价比', 'Fastest': '最快', 'Most Capable': '能力最强' }[label]) + ' ' + num + ' 项'],
       ],
       title: {
         static: {
