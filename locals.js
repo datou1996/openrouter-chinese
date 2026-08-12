@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.5',
+  version: '1.5.6',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -2661,8 +2661,23 @@ const I18N = {
         'Parallel': '并行',
         'Humanity\u2019s Last Exam as a search benchmark: expert questions answered with live search.': '作为搜索基准的"人类最后的考试"：通过实时搜索回答专家级问题。',
         'Humanity\'s Last Exam as a search benchmark: expert questions answered with live search.': '作为搜索基准的"人类最后的考试"：通过实时搜索回答专家级问题。',
-        'Fill an entire table; answer-item accuracy scores partial matches.': '填满整个表格；答案条目准确率对部分匹配计分。',
+        'Full an entire table; answer-item accuracy scores partial matches.': '填满整个表格；答案条目准确率对部分匹配计分。',
         'For usage-based views of the same models, see the': '如需查看相同模型的用量视图，请参阅',
+        // 基准测试子页
+        'Last benchmark run': '最近基准运行',
+        'Model comparison': '模型对比',
+        'Leaderboard': '排行榜',
+        'Top-level rows use default routing where available; click a row to expand provider-pinned results.': '顶级行使用默认路由（如果可用）；点击行可展开提供商固定的结果。',
+        'compared across configurations': '跨配置对比',
+        'search budgets and plugin mode': '搜索预算和插件模式',
+        'Search budget': '搜索预算',
+        'Search provider': '搜索提供商',
+        'Compare answer quality with average cost and typical time per question. The Pareto line shows the best quality available at each price or latency level.': '对比回答质量与每个问题的平均成本和典型时间。Pareto 线显示在每个价格或延迟水平上可用的最佳质量。',
+        'Every verified configuration for all models. Sort by quality, cost, speed, or question count.': '所有模型的每个已验证配置。按质量、成本、速度或问题数量排序。',
+        'Compare answer-item accuracy with cost and latency; complete tables and Pareto points appear in each chart.': '对比答案条目准确率与成本和延迟；每个图表中显示完整表格和 Pareto 点。',
+        'Task': '任务',
+        'every': '每个',
+        'search engine': '搜索引擎',
         'Independent, reproducible measurements of the knobs you can actually set on an OpenRouter request: models, providers, search engines, and tool budgets. Every score links to the configuration, costs, and telemetry behind it.': '对您可以在 OpenRouter 请求中实际设置的各项旋钮（模型、提供商、搜索引擎和工具预算）进行独立、可复现的测量。每个分数都链接到其背后的配置、成本和遥测数据。',
         'model rankings': '模型排行榜',
         'and the': '和',
