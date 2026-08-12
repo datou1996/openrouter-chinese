@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.13',
+  version: '1.5.14',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -61,7 +61,7 @@ const I18N = {
       ],
     },
     // 这些页面的文本节点变化时也要进行翻译(React 原地更新文本的场景)
-    characterDataPage: ['chat', 'model', 'docs', 'rankings', 'models', 'workspaces', 'settings', 'activity', 'logs'],
+    characterDataPage: ['chat', 'model', 'docs', 'rankings', 'models', 'workspaces', 'settings', 'activity', 'logs', 'benchmarks'],
   },
 
   /* ============================ 简体中文 ============================ */
@@ -3068,6 +3068,9 @@ const I18N = {
         'Time /': '耗时/',
         'Output tok /': '输出 Token/',
         'agent:': '智能体:',
+        // "Selected searches · 2 of 2 shown" 被 React 拆分为 "Selected searches ·" + "2" + "of" + "2" + "shown"
+        'Selected searches ·': '已选搜索 · ',
+        'Selected searches': '已选搜索',
         'Unknown tool name:': '未知工具名:',
         'Correct': '正确',
         'Closed': '关闭',
@@ -3097,7 +3100,9 @@ const I18N = {
         'TV show: the 1986 Journey to the West series had 25 episodes.': '电视节目:1986 版《西游记》系列共 25 集。',
         'More budget produced eight searches and a detailed synthesis, but it converged on the wrong character. The confidently stated Sun Wukong answer does not match OpenAI\'s published Plastic Man reference: extra search depth did not rescue a bad hypothesis.': '更多预算产生了八次搜索和一份详细的综合,但它收敛到了错误的角色。自信陈述的孙悟空答案与 OpenAI 发布的 Plastic Man 参考答案不符:额外的搜索深度没有拯救一个错误的假设。',
         'fictional character breaks fourth wall backstory ascetics helped him humor TV show 1960s-1980s fewer than 50 episodes': '虚构角色 打破第四面墙 背景故事 苦行僧帮助他 幽默 电视节目 1960-1980年代 少于50集',
+        'fictional character breaks fourth wall backstory saved by ascetics monks TV show 1960s 1980s comedy': '虚构角色 打破第四面墙 背景故事 被苦行僧僧侣拯救 电视节目 1960年代 1980年代 喜剧',
         'comic superhero backstory raised by ascetics hermits breaks fourth wall humorous TV series': '漫画超级英雄 背景故事 由苦行僧隐士抚养 打破第四面墙 幽默电视系列剧',
+        'comic superhero raised by ascetics breaks fourth wall humor TV series fewer than 50 episodes': '漫画超级英雄 由苦行僧抚养 打破第四面墙 幽默电视系列剧 少于50集',
         'Sun Wukong Monkey King taught by Patriarch Subhuti ascetic breaks fourth wall humorous television series episodes': '孙悟空 美猴王 菩提祖师传授 苦行僧 打破第四面墙 幽默电视系列剧 集数',
         'Journey to the West 1986 TV series number of episodes 25 original run': '西游记 1986 电视剧 集数 25 首播',
         'Journey to the West (1986 TV series)': '西游记（1986 年电视剧）',
@@ -3312,6 +3317,9 @@ const I18N = {
         [/^(.+), (\d+)-turn: (.+? \u00b7 (?:high|xhigh|medium|low)), ([\d.]+)% answer-item accuracy, ([\d.]+)% complete tables, \$([\d.]+)$/, (m, eng, n, model, acc, comp, cost) => eng + '，' + n + ' 轮: ' + model + '，答案项准确率 ' + acc + '%，完整表格 ' + comp + '%，' + cost + ' 美元'],
         // "11/100 correct" 等 title 提示
         [/^(\d+)\/(\d+) correct$/, '$1/$2 正确'],
+        // "Selected searches · 2 of 2 shown" 拆分节点:数字间独立 "of" 与尾部 "shown"
+        [/^of$/, ' / 共 '],
+        [/^shown$/, ' 个已显示'],
         // "3.9% → 2.6%" 等错误率对比
         [/^([\d.]+%) → ([\d.]+%)$/, '$1 → $2'],
         // 基准测试页标题,如 "GPQA Diamond Leaderboard | OpenRouter"
