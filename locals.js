@@ -678,6 +678,8 @@ const I18N = {
         [/^(\d+(?:\.\d+)?)\s*(mo|y|w|d|h|m|s)\+?$/, (m, num, unit) => num + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
         // 价格单位,如 "$0.10/hour"、"$4/M tokens"、"$0.04/image"、"0.02/M characters"、"$15/M UTF-8 bytes"
         [/^(\$?[\d.]+)\/M\s*(tokens|characters|chars|UTF-8 bytes|bytes)$/, (m, price, unit) => price + '/百万 ' + ({ tokens: 'Token', characters: '字符', chars: '字符', 'UTF-8 bytes': 'UTF-8 字节', bytes: '字节' }[unit])],
+        // 带空格或小数变体,如 "$15 /M UTF-8 bytes"、"$15.00/M UTF-8 bytes"
+        [/^(\$?[\d.]+)\s*\/\s*M\s*(tokens|characters|chars|UTF-8 bytes|bytes)$/, (m, price, unit) => price + '/百万 ' + ({ tokens: 'Token', characters: '字符', chars: '字符', 'UTF-8 bytes': 'UTF-8 字节', bytes: '字节' }[unit])],
         [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒' }[unit])],
         // "from $0.04/image"
         [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
@@ -883,6 +885,10 @@ const I18N = {
         'Input Price': '输入价格',
         'xx% off': 'xx% 折扣',
         'OpenRouter defaults to allowing prompts of "unlimited" length for this model, using a middle-out transform, which you can disable (and does not affect prompts of size less than the context length).': 'OpenRouter 默认允许此模型使用"无限"长度的提示词,采用 middle-out 变换,您可以禁用它(并且不影响小于上下文长度的提示词)。',
+        // 拆分片段(引号可能被拆为独立节点)
+        'OpenRouter defaults to allowing prompts of ': 'OpenRouter 默认允许此模型使用',
+        'unlimited': '"无限"',
+        ' length for this model, using a middle-out transform, which you can disable (and does not affect prompts of size less than the context length).': '"无限"长度的提示词,采用 middle-out 变换,您可以禁用它(并且不影响小于上下文长度的提示词)。',
         'Median time-to-first-token across providers (p50, 30 min rolling window)': '各提供商的中位首 Token 时间(P50,30 分钟滚动窗口)',
         'Median output throughput across providers (p50, 30 min rolling window)': '各提供商的中位输出吞吐量(P50,30 分钟滚动窗口)',
         '$/M tokens for text models. Audio/image/video models show their native unit (/minute, /second, etc.).': '文本模型以 $/M Token 计价。音频/图像/视频模型显示其原生单位(/分钟、/秒等)。',
@@ -930,6 +936,8 @@ const I18N = {
       regexp: [
         // 价格行,如 "$0.95/M input tokens" -> "$0.95/M 输入 Token"
         [/^\$[\d.]+\/M\s*(input|output)\s*tokens$/, (match, p1) => match.replace(/(input|output)\s*tokens$/, p1 === 'input' ? '输入 Token' : '输出 Token')],
+        // 引号变体(直引号/弯引号/实体的任意组合)
+        [/^OpenRouter defaults to allowing prompts of ["\u201c\u201d\x27]*unlimited["\u201c\u201d\x27]* length for this model, using a middle-out transform, which you can disable \(and does not affect prompts of size less than the context length\)\.?$/, 'OpenRouter 默认允许此模型使用"无限"长度的提示词,采用 middle-out 变换,您可以禁用它(并且不影响小于上下文长度的提示词)。'],
       ],      title: {
         static: {
           'Compare AI Models: Pricing, Context & Benchmarks | OpenRouter': '对比 AI 模型:价格、上下文与基准测试 | OpenRouter',
