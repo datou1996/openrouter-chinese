@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.21',
+  version: '1.5.22',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -2633,11 +2633,40 @@ const I18N = {
         'Price in': '输入价格',
         'Price out': '输出价格',
         'View all in models': '在模型列表中查看全部',
+        // 卡片描述与指标提示
+        'The model that served the most tokens on OpenRouter this week. If you want the popular pick, start here.': '本周在 OpenRouter 上提供 Token 服务最多的模型。如果您想要热门之选,从这里开始。',
+        'The highest-ranked open-weights model on the Artificial Analysis intelligence index: frontier-grade quality you can self-host.': 'Artificial Analysis 智能指数上排名最高的开放权重模型:您可以自托管的前沿级质量。',
+        'Scores in the top half of the independent Artificial Analysis benchmarks at the lowest combined rate for input and output tokens. The most capability per dollar spent.': '在独立的 Artificial Analysis 基准测试中位列前一半,同时输入和输出 Token 的综合费率最低。每一美元花销获得最多的能力。',
+        'Streams output at the highest sustained speed across real production requests and multiple providers. Best when users need answers quickly.': '在真实生产请求和多个提供商中以最高持续速度流式输出。最适合需要快速得到答案的用户。',
+        'Near the top of the Artificial Analysis coding index right now. If you are writing code and want a very strong model regardless of price, start here.': '目前接近 Artificial Analysis 编码指数榜首。如果您正在写代码,想要一个不计价格也非常强大的模型,从这里开始。',
+        'Benchmark performance per dollar. Scores come from the independent Artificial Analysis benchmarks; price is each model\u2019s combined rate for input and output tokens, weighted toward input to match typical usage. Only models scoring in the top half qualify.': '每美元的基准测试表现。分数来自独立的 Artificial Analysis 基准测试;价格是每个模型输入和输出 Token 的综合费率,按输入加权以匹配典型用法。只有得分在前一半的模型才符合条件。',
+        'Benchmark performance per dollar. Scores come from the independent Artificial Analysis benchmarks; price is each model\'s combined rate for input and output tokens, weighted toward input to match typical usage. Only models scoring in the top half qualify.': '每美元的基准测试表现。分数来自独立的 Artificial Analysis 基准测试;价格是每个模型输入和输出 Token 的综合费率,按输入加权以匹配典型用法。只有得分在前一半的模型才符合条件。',
+        'Percentile on the Artificial Analysis intelligence index, relative to the other frontier models it scores.': '在 Artificial Analysis 智能指数上的百分位,相对于其评分的其他前沿模型。',
+        'Percentile on the Artificial Analysis coding index, relative to the other frontier models it scores.': '在 Artificial Analysis 编码指数上的百分位,相对于其评分的其他前沿模型。',
+        'Percentile on the Artificial Analysis agentic index, relative to the other frontier models it scores.': '在 Artificial Analysis 智能体指数上的百分位,相对于其评分的其他前沿模型。',
+        'Tokens served on OpenRouter over the last 7 days.': '过去 7 天在 OpenRouter 上服务的 Token 数。',
+        'Median output speed across recent production traffic.': '近期生产流量的中位输出速度。',
+        'Median time to first token: how long the model takes to start responding.': '首 Token 中位时间:模型开始响应所需的时间。',
+        'How many providers currently serve this model.': '当前有多少提供商在服务此模型。',
+        'Weekly tokens served across every model in this family.': '该系列中每个模型的每周 Token 服务量。',
+        'List input price; native units are shown for non-token models.': '列表输入价格;非 Token 模型显示原生单位。',
+        'List output price when applicable to the model.': '适用于模型时的列表输出价格。',
+        // 模态标题(discover 卡片)
+        'image models': '图像模型',
+        'video models': '视频模型',
+        'speech models': '语音模型',
+        'intelligence': '智能指数',
       },
       regexp: [
         // "Browse all 527 models"、"View all 527 models"
         [/^Browse all ([\d,]+) models$/, '浏览全部 $1 个模型'],
         [/^View all ([\d,]+) models$/, '查看全部 $1 个模型'],
+        // 价格单位(public 正则可能被页面正则顺序遮挡,此处兜底)
+        [/^(\$?[\d.]+)\/(hour|minute|second|image|song|megapixel|character|char|token|tokens|msec|ms|search|query|request|turn|page|day|week|month|video|audio|step)$/, (m, price, unit) => price + '/' + ({ hour: '小时', minute: '分钟', second: '秒', image: '图像', song: '首', megapixel: '百万像素', character: '字符', char: '字符', token: 'Token', tokens: 'Token', msec: '毫秒', ms: '毫秒', search: '次搜索', query: '次查询', request: '次请求', turn: '轮', page: '页', day: '天', week: '周', month: '月', video: '个视频', audio: '个音频', step: '步' }[unit])],
+        [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
+        [/^from \$([\d.]+)$/, (m, price) => '起价 $' + price],
+        // 单位被拆分为独立节点时(如 "$0.04" + "/image")
+        [/^\/(image|second|minute|hour|song|megapixel)$/, (m, unit) => '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
       ],
       title: {
         static: {
