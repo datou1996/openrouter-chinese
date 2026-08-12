@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.4.9
+// @version      1.5.0
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.4.9
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.0
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -133,9 +133,10 @@
      * OpenRouter 为 Next.js 应用,大量内容(排行榜分区、图表等)通过滚动/观察器
      * 懒加载挂载,且 React 重渲染会恢复英文原文。仅依赖 MutationObserver 可能
      * 漏掉部分节点(如 body 被替换、mutation 批量处理中断等),因此:
-     *   1. 监听滚动(防抖)后整页重扫 —— 覆盖滚动懒加载的内容
+      *   1. 监听滚动(防抖)后整页重扫 —— 覆盖滚动懒加载的内容
      *   2. 周期性整页重扫 —— 覆盖其他时机挂载/被 React 恢复的内容
      *   3. 检测 body 被替换 —— 替换后重建观察器,避免观察失效
+     *   4. 主动查询兜底 —— 直接遍历文本节点搜索已知模式,确保不遗漏
      */
     function setupLazyContentSweep() {
         // 滚动防抖重扫(800ms)
@@ -146,6 +147,7 @@
                 if (State.pageConfig) {
                     safe(traverseNode, '滚动重扫')(document.body);
                     safe(transTitle, '标题翻译')();
+                    safe(patchMissedNodes, '兜底扫描')();
                 }
             }, 800);
         }, { passive: true });
@@ -161,9 +163,27 @@
             }
             if (State.pageConfig) {
                 safe(traverseNode, '周期重扫')(document.body);
-                safe(transTitle, '标题翻译')(); // Next.js 会在路由后重新设置标题
+                safe(transTitle, '标题翻译')();
+                safe(patchMissedNodes, '兜底扫描')();
             }
         }, 6000);
+    }
+
+    /**
+     * 主动查询兜底:直接遍历 body 下所有文本节点搜索已知模式的顽固未翻译项,
+     * 这些节点可能因虚拟列表复用、React Portal 等复杂原因从未被 TreeWalker 访问
+     */
+    function patchMissedNodes() {
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+            const text = node.data;
+            if (!text || text.length > 30) continue;
+            if (/^\d+\s*selected$/.test(text)) {
+                const result = transText(text);
+                if (result) node.data = result;
+            }
+        }
     }
 
     /* =========================== URL 变化监听 =========================== */
