@@ -2,7 +2,7 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.15
+// @version      1.5.16
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
@@ -152,7 +152,7 @@
             }, 800);
         }, { passive: true });
 
-        // 周期性重扫(6 秒)与 body 替换检测
+        // 周期性重扫(6 秒,基准页额外 2.5 秒快速重扫防 React 重渲染回退)与 body 替换检测
         setInterval(() => {
             // body 被替换时重建观察器
             if (State.mutationObserver && !document.contains(State.mutationObserver.target)) {
@@ -171,6 +171,16 @@
                 safe(patchMissedNodes, '兜底扫描')();
             }
         }, 6000);
+
+        // 基准测试页快速重扫:每 2.5 秒整页重扫,对抗 React 重渲染回退
+        if (State.pageConfig?.currentPageType === 'benchmarks') {
+            setInterval(() => {
+                if (State.pageConfig?.currentPageType === 'benchmarks') {
+                    safe(traverseNode, '基准页快速重扫')(document.body);
+                    safe(patchMissedNodes, '基准页兜底扫描')();
+                }
+            }, 2500);
+        }
     }
 
     /**

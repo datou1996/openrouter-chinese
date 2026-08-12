@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.15',
+  version: '1.5.16',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -3272,6 +3272,8 @@ const I18N = {
         // "80.0% answer-item accuracy"、"21.0% complete tables"
         [/^([\d.]+)% answer-item accuracy$/, '$1% 答案项准确率'],
         [/^([\d.]+)% complete tables$/, '$1% 完整表格'],
+        // 兼容 % 后混入零宽字符或异常空格的形态
+        [/^([\d.]+)%[\s\u200b\u200c\u200d\ufeff\u00a0]*complete tables$/, '$1% 完整表格'],
         // "Answer-item accuracy 62.2%"
         [/^Answer-item accuracy ([\d.]+)%$/, '答案项准确率 $1%'],
         // "3 Confidence: 45%"、"2 Confidence: 80%"(数字+置信度组合)
