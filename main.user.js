@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.5.2
+// @version      1.5.3
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.2
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.5.3
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -187,11 +187,11 @@
             const text = node.data;
             if (!text || text.length > 30) continue;
             count++;
-            if (/^\d+\s*selected$/.test(text)) {
+            if (/selected/i.test(text) && text.length < 15) {
                 hit++;
                 const result = transText(text);
                 if (result) {
-                    console.info('[OpenRouter 中文化插件] 兜底扫描 命中 selected:', text, '=>', result, '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null');
+                    console.info('[OpenRouter 中文化插件] 兜底扫描 命中 selected:', text, '=>', result);
                     node.data = result;
                 } else {
                     console.warn('[OpenRouter 中文化插件] 兜底扫描 selected transText 返回 false:', text, '| pageType:', State.pageConfig ? State.pageConfig.currentPageType : 'null', '| enable_RegExp:', State.featureSet.enable_RegExp);
