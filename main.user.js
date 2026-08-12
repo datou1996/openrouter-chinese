@@ -2,12 +2,12 @@
 // @name         OpenRouter 中文化插件
 // @namespace    https://openrouter.ai/
 // @description  中文化 OpenRouter 界面的部分菜单及内容。实现方式参考 https://github.com/maboloshi/github-chinese
-// @version      1.3.5
+// @version      1.3.6
 // @author       openrouter-chinese
 // @license      MIT
 // @icon         https://openrouter.ai/favicon.ico
 // @match        https://openrouter.ai/*
-// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.5
+// @require      https://raw.githubusercontent.com/datou1996/openrouter-chinese/main/locals.js?v1.3.6
 // @run-at       document-start
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -689,6 +689,45 @@
                 setupMenuCommands();
             }
         );
+
+        State.menuIds.diag = GM_registerMenuCommand(
+            '诊断:扫描未翻译词条',
+            () => {
+                diagScan();
+            }
+        );
+    }
+
+    /**
+     * 诊断扫描:查找页面上疑似未翻译的文本节点
+     * 输出节点的精确内容(含字节码)与词库匹配结果,用于排查词条不命中的原因
+     */
+    function diagScan() {
+        const patterns = [/%\s*off/i, /UTF-8/i, /unlimited/i, /middle-out/i, /head-to-head/i];
+        const hits = [];
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+            const text = node.data;
+            if (!text || text.length > 200) continue;
+            if (patterns.some(p => p.test(text))) {
+                const trimmed = text.trim();
+                const cleaned = trimmed.replace(/\xa0|[\s]+/g, ' ').replace(/[\u200b\u200c\u200d\ufeff]/g, '');
+                const result = fetchTransResult(cleaned);
+                hits.push({
+                    text,
+                    hex: Array.from(text).map(c => c.charCodeAt(0).toString(16)).join(' '),
+                    cleaned,
+                    matched: result && result !== cleaned ? result : null,
+                    parent: node.parentElement ? node.parentElement.tagName + '.' + String(node.parentElement.className).slice(0, 60) : ''
+                });
+            }
+        }
+        console.info('[OpenRouter 中文化插件] 诊断扫描完成,发现 ' + hits.length + ' 个相关节点:');
+        hits.slice(0, 30).forEach(h => {
+            console.info('节点: ' + JSON.stringify(h.text), '| 字节: ' + h.hex, '| 匹配: ' + (h.matched || '无'), '| 位置: ' + h.parent);
+        });
+        if (!hits.length) console.info('未发现 % off/UTF-8/unlimited/middle-out/head-to-head 相关节点');
     }
 
     /* =========================== 启动 =========================== */
