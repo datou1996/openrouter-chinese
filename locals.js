@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.5.12',
+  version: '1.5.13',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -3040,11 +3040,14 @@ const I18N = {
         '3.9% → 2.6%': '3.9% → 2.6%',
         '11/100 correct': '11/100 正确',
         'correct': '正确',
+        'Planned Parenthood Fulton Street': 'Planned Parenthood 富尔顿街',
+        'Planned Parenthood Family First': 'Planned Parenthood 家庭优先',
+        'FPA Women\'s Health Fresno': 'FPA 女性健康中心 弗雷斯诺',
         // 表格 Std dev 列说明
         'Top-level rows show standard deviation across runs using default routing (not pinned to a provider); provider rows show standard deviation across runs pinned to that provider.': '顶级行显示使用默认路由（不固定到提供商）跨运行的标准差;提供商行显示固定到该提供商跨运行的标准差。',
         // Pareto 说明
         'Pareto': 'Pareto',
-        'Pareto-optimal: no other model is both cheaper and more accurate. See the Accuracy vs. cost chart.': '帕累托最优:没有其他模型既更便宜又更准确。请参阅「准确率 vs 成本」图表。',
+        'Pareto-optimal: no other model is both cheaper and more accurate. See the Accuracy vs. cost chart.': 'Pareto 最优:没有其他模型既更便宜又更准确。请参阅「准确率 vs 成本」图表。',
         // 长句拆分节点(browsecomp/hle)
         'Every run persists its exact model, engine, request format, search budget, cost, and available timing telemetry. Missing configurations stay missing in the comparison table, and': '每次运行都会持久保存其确切的模型、引擎、请求格式、搜索预算、成本和可用的计时遥测。缺失的配置在对比表中保持缺失,并且',
         'absent or zero telemetry is not treated as free or instantaneous performance.': '缺失或为零的遥测不会被视为免费或瞬时性能。',
@@ -3127,8 +3130,6 @@ const I18N = {
         // WideSearch 深搜分页内容(线上新版)
         'abortion clinic Fresno California 2024': '加州弗雷斯诺 2024 堕胎诊所',
         'Planned Parenthood abortion services Fresno CA locations': 'Planned Parenthood 弗雷斯诺 CA 堕胎服务地点',
-        'Planned Parenthood Fulton Street': 'Planned Parenthood Fulton Street',
-        'FPA Women\'s Health Fresno': 'FPA Women\'s Health Fresno',
         'The deeper run found all six clinics and matched every address. One cell was still wrong: Family First was listed as open Saturday while the reference says closed. Answer-item accuracy rose to 96.7%, but the complete-table result remained incorrect.': '更深度的运行找到了全部六家诊所,且每家地址都匹配。仍有一格错误:Family First 被列为周六营业,而参考显示周六关闭。答案项准确率升至 96.7%,但完整表格结果仍为不正确。',
         'abortion clinic Fresno California 2024': '加州弗雷斯诺 2024 堕胎诊所',
         'Planned Parenthood Fresno abortion services address phone': 'Planned Parenthood 弗雷斯诺 堕胎服务 地址 电话',
@@ -3136,7 +3137,6 @@ const I18N = {
         'FPA Women\'s Health Fresno hours Saturday abortion': 'FPA Women\'s Health 弗雷斯诺 营业时间 周六 堕胎',
         'Planned Parenthood Madera Hanford Tulare abortion services address': 'Planned Parenthood 马德拉 汉福德 图莱里 堕胎服务 地址',
         'FPA Women\'s Health Tulare hours Saturday': 'FPA Women\'s Health 图莱里 营业时间 周六',
-        'Planned Parenthood Family First': 'Planned Parenthood Family First',
         'Planned Parenthood Merced': 'Planned Parenthood 默塞德',
         'FPA Women\'s Health Tulare': 'FPA Women\'s Health 图莱里',
         // /benchmarks 主页卡片描述
@@ -3268,6 +3268,12 @@ const I18N = {
         [/^([\d.]+)% complete tables$/, '$1% 完整表格'],
         // "Answer-item accuracy 62.2%"
         [/^Answer-item accuracy ([\d.]+)%$/, '答案项准确率 $1%'],
+        // "3 Confidence: 45%"、"2 Confidence: 80%"(数字+置信度组合)
+        [/^(\d+) Confidence: ([\d.]+)%$/, '$1 置信度: $2%'],
+        // "Sun Wukong (the Monkey King), protagonist of Journey to the West Confidence: 82%"(内容+置信度组合)
+        [/^(.*?) Confidence: (\d+)%$/, '$1 置信度: $2%'],
+        // "Columbia University, ..., Yale University. Confidence: 95%."(结尾带句点)
+        [/^(.*?)\. Confidence: ([\d.]+)%\.$/, '$1。置信度: $2%。'],
         // "Ungraded · answer 3"
         [/^Ungraded \u00b7 answer (\d+)$/, '未评分 \u00b7 答案 $1'],
         // "Confidence: 45%"
