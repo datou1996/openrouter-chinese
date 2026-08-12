@@ -21,7 +21,7 @@
 
 const I18N = {
   // 词库版本(与 main.user.js 的 @version 同步)
-  version: '1.3.6',
+  version: '1.3.7',
 
   /* ============================ 全局配置 ============================ */
   conf: {
@@ -675,6 +675,8 @@ const I18N = {
         [/^Ranked at #(\d+) in (.+) category$/, '在$2类别中排名第 $1 位'],
         // 数字+单位,如 "5M UTF-8 bytes"、"1.2B characters"、"15M tokens"
         [/^(\d+(?:\.\d+)?[KMB]?)\s*(UTF-8 bytes|characters|chars|bytes|tokens|words)$/, (m, num, unit) => num + ' ' + ({ 'UTF-8 bytes': 'UTF-8 字节', characters: '字符', chars: '字符', bytes: '字节', tokens: 'Token', words: '词' }[unit])],
+        // 数字被拆为独立节点时的单位片段,如 "5M" + " UTF-8 bytes"、"15" + "M tokens"
+        [/^([KM]?)\s*(UTF-8 bytes|characters|chars|bytes|tokens|words)$/, (m, prefix, unit) => (prefix ? prefix + ' ' : '') + ({ 'UTF-8 bytes': 'UTF-8 字节', characters: '字符', chars: '字符', bytes: '字节', tokens: 'Token', words: '词' }[unit])],
         // 年龄/时长范围,如 "0-3 mo"、"6-12 y"、"12+ mo"
         [/^(\d+)-(\d+)\s*(mo|y|w|d|h|m|s)$/, (m, a, b, unit) => a + '-' + b + ' ' + ({ mo: '个月', y: '年', w: '周', d: '天', h: '小时', m: '分钟', s: '秒' }[unit])],
         [/^(\d+)\+\s*(mo|y|w|d|h|m|s)$/, (m, num, unit) => num + ' ' + ({ mo: '个月以上', y: '年以上', w: '周以上', d: '天以上', h: '小时以上', m: '分钟以上', s: '秒以上' }[unit])],
@@ -688,7 +690,7 @@ const I18N = {
         [/^from \$([\d.]+)\/(image|second|minute|hour|song|megapixel)$/, (m, price, unit) => '起价 $' + price + '/' + ({ image: '图像', second: '秒', minute: '分钟', hour: '小时', song: '首', megapixel: '百万像素' }[unit])],
         // "from $0.10"(无单位后缀)
         [/^from \$([\d.]+)$/, (m, price) => '起价 $' + price],
-        // 折扣徽章,如 "90% off"
+        // 折扣徽章,如 "90% off"(数字与 "% off" 可能是独立节点)
         [/^(\d+)% off$/, '$1% 折扣'],
         // 容错变体:空格位置任意,如 "60 %off"、"60% off"
         [/^(\d+)\s*%\s*off$/, '$1% 折扣'],
@@ -891,6 +893,8 @@ const I18N = {
         'Model Name': '模型名称',
         'Input Price': '输入价格',
         'xx% off': 'xx% 折扣',
+        // 数字被拆为独立节点时的折扣片段,如 "90" + "% off"
+        '% off': '% 折扣',
         'OpenRouter defaults to allowing prompts of "unlimited" length for this model, using a middle-out transform, which you can disable (and does not affect prompts of size less than the context length).': 'OpenRouter 默认允许此模型使用"无限"长度的提示词,采用 middle-out 变换,您可以禁用它(并且不影响小于上下文长度的提示词)。',
         // 拆分片段(middle-out 是链接,整句被 <a> 拆为三段)
         'OpenRouter defaults to allowing prompts of "unlimited" length for this model, using a': 'OpenRouter 默认允许此模型使用"无限"长度的提示词,采用',
